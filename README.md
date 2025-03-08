@@ -1,7 +1,5 @@
 # Project Euler Stats
 
-**Repository Description for Obsidian Plugin to Fetch Project Euler Statistics**
-
 This repository contains an Obsidian plugin that allows users to automatically fetch and display statistics 
 from the [Project Euler](https://projecteuler.net/) website. 
 The plugin integrates seamlessly with Obsidian, providing a convenient way 
@@ -63,7 +61,7 @@ This code block will display your progress, a list of solved problems, and a pro
 
 ### Requirements:
 
-- Obsidian version 0.12.0 or higher.
+- Obsidian version 0.15.0 or higher.
 - A Project Euler account.
 
 ### License:

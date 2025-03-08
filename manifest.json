@@ -1,11 +1,11 @@
 {
-	"id": "sample-plugin",
-	"name": "Sample Plugin",
+	"id": "project-euler-obsidian-plugin",
+	"name": "Project Euler Stats",
 	"version": "1.0.0",
 	"minAppVersion": "0.15.0",
-	"description": "Demonstrates some of the capabilities of the Obsidian API.",
-	"author": "Obsidian",
-	"authorUrl": "https://obsidian.md",
-	"fundingUrl": "https://obsidian.md/pricing",
+	"description": "Plugin for getting statistics from ProjectEuler.",
+	"author": "Artem Korsakov",
+	"authorUrl": "https://github.com/artemkorsakov",
+	"fundingUrl": "https://github.com/artemkorsakov",
 	"isDesktopOnly": false
 }
