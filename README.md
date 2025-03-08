@@ -1,94 +1,76 @@
-# Obsidian Sample Plugin
+# Project Euler Stats
 
-This is a sample plugin for Obsidian (https://obsidian.md).
+**Repository Description for Obsidian Plugin to Fetch Project Euler Statistics**
 
-This project uses TypeScript to provide type checking and documentation.
-The repo depends on the latest plugin API (obsidian.d.ts) in TypeScript Definition format, which contains TSDoc comments describing what it does.
+This repository contains an Obsidian plugin that allows users to automatically fetch and display statistics 
+from the [Project Euler](https://projecteuler.net/) website. 
+The plugin integrates seamlessly with Obsidian, providing a convenient way 
+to track your Project Euler problem-solving progress directly within your personal knowledge base.
 
-This sample plugin demonstrates some of the basic functionality the plugin API can do.
-- Adds a ribbon icon, which shows a Notice when clicked.
-- Adds a command "Open Sample Modal" which opens a Modal.
-- Adds a plugin setting tab to the settings page.
-- Registers a global click event and output 'click' to the console.
-- Registers a global interval which logs 'setInterval' to the console.
+This plugin is perfect for math and programming enthusiasts 
+who want to track their Project Euler achievements directly in Obsidian, 
+integrating them with other knowledge and notes.
 
-## First time developing plugins?
+### Key Features:
 
-Quick starting guide for new plugin devs:
+1. **Automatic Statistics Fetching:**
 
-- Check if [someone already developed a plugin for what you want](https://obsidian.md/plugins)! There might be an existing plugin similar enough that you can partner up with.
-- Make a copy of this repo as a template with the "Use this template" button (login to GitHub if you don't see it).
-- Clone your repo to a local development folder. For convenience, you can place this folder in your `.obsidian/plugins/your-plugin-name` folder.
-- Install NodeJS, then run `npm i` in the command line under your repo folder.
-- Run `npm run dev` to compile your plugin from `main.ts` to `main.js`.
-- Make changes to `main.ts` (or create new `.ts` files). Those changes should be automatically compiled into `main.js`.
-- Reload Obsidian to load the new version of your plugin.
-- Enable plugin in settings window.
-- For updates to the Obsidian API run `npm update` in the command line under your repo folder.
+	- The plugin connects to your Project Euler account or uses data parsing to retrieve information 
+      about solved problems, progress, and other metrics.
 
-## Releasing new releases
+2. **Display Statistics in Obsidian:**
 
-- Update your `manifest.json` with your new version number, such as `1.0.1`, and the minimum Obsidian version required for your latest release.
-- Update your `versions.json` file with `"new-plugin-version": "minimum-obsidian-version"` so older versions of Obsidian can download an older version of your plugin that's compatible.
-- Create new GitHub release using your new version number as the "Tag version". Use the exact version number, don't include a prefix `v`. See here for an example: https://github.com/obsidianmd/obsidian-sample-plugin/releases
-- Upload the files `manifest.json`, `main.js`, `styles.css` as binary attachments. Note: The manifest.json file must be in two places, first the root path of your repository and also in the release.
-- Publish the release.
+	- The fetched data is displayed as tables, graphs, or text blocks that can be embedded directly into your notes.
 
-> You can simplify the version bump process by running `npm version patch`, `npm version minor` or `npm version major` after updating `minAppVersion` manually in `manifest.json`.
-> The command will bump version in `manifest.json` and `package.json`, and add the entry for the new version to `versions.json`
+3. **Data Synchronization:**
 
-## Adding your plugin to the community plugin list
+	- The plugin can automatically update statistics when Obsidian is opened or upon user request.
 
-- Check the [plugin guidelines](https://docs.obsidian.md/Plugins/Releasing/Plugin+guidelines).
-- Publish an initial version.
-- Make sure you have a `README.md` file in the root of your repo.
-- Make a pull request at https://github.com/obsidianmd/obsidian-releases to add your plugin.
+4. **Customization:**
 
-## How to use
+	- Users can customize which data to display (e.g., number of solved problems, 
+      progress by difficulty level, recently solved problems, etc.).
 
-- Clone this repo.
-- Make sure your NodeJS is at least v16 (`node --version`).
-- `npm i` or `yarn` to install dependencies.
-- `npm run dev` to start compilation in watch mode.
+5. **Integration with Notes:**
+	- The plugin allows you to link solved problems to your Obsidian notes, creating cross-references for easier navigation.
 
-## Manually installing the plugin
+### How to Use:
 
-- Copy over `main.js`, `styles.css`, `manifest.json` to your vault `VaultFolder/.obsidian/plugins/your-plugin-id/`.
+1. Install the plugin via Community Plugins in Obsidian.
+2. Configure the plugin by providing access details for your Project Euler account.
+3. Use the plugin commands to fetch and display statistics in your notes.
 
-## Improve code quality with eslint (optional)
-- [ESLint](https://eslint.org/) is a tool that analyzes your code to quickly find problems. You can run ESLint against your plugin to find common bugs and ways to improve your code. 
-- To use eslint with this project, make sure to install eslint from terminal:
-  - `npm install -g eslint`
-- To use eslint to analyze this project use this command:
-  - `eslint main.ts`
-  - eslint will then create a report with suggestions for code improvement by file and line number.
-- If your source code is in a folder, such as `src`, you can use eslint with this command to analyze all files in that folder:
-  - `eslint .\src\`
+### Example Usage:
 
-## Funding URL
+````markdown
+## Project Euler Statistics
 
-You can include funding URLs where people who use your plugin can financially support it.
-
-The simple way is to set the `fundingUrl` field to your link in your `manifest.json` file:
-
-```json
-{
-    "fundingUrl": "https://buymeacoffee.com"
-}
+```euler-stats
+progress: true
+solved: true
+graph: true
 ```
+````
 
-If you have multiple URLs, you can also do:
+This code block will display your progress, a list of solved problems, and a progress graph.
 
-```json
-{
-    "fundingUrl": {
-        "Buy Me a Coffee": "https://buymeacoffee.com",
-        "GitHub Sponsor": "https://github.com/sponsors",
-        "Patreon": "https://www.patreon.com/"
-    }
-}
-```
+### Installation:
 
-## API Documentation
+1. Go to Obsidian settings.
+2. Open the "Community Plugins" tab.
+3. Search for the "Project Euler Stats" plugin and install it.
+4. Activate the plugin and configure it according to your preferences.
 
-See https://github.com/obsidianmd/obsidian-api
+### Requirements:
+
+- Obsidian version 0.12.0 or higher.
+- A Project Euler account.
+
+### License:
+
+This plugin is distributed under the MIT License. You are free to use, modify, and distribute it.
+
+### Contributing:
+
+We welcome contributions from the community! If you'd like to add new features, fix bugs, or improve documentation, 
+feel free to create a pull request or open an issue in the repository.
