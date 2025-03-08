@@ -43,14 +43,16 @@ integrating them with other knowledge and notes.
 ````markdown
 ## Project Euler Statistics
 
-```euler-stats
-progress: true
-solved: true
-graph: true
+```euler-stats-profile
+account=Artem_Korsakov
 ```
 ````
 
 This code block will display your progress, a list of solved problems, and a progress graph.
+
+![Profile Artem_Korsakov](https://projecteuler.net/profile/Artem_Korsakov.png)
+
+For more detailed information, please refer to [the documentation]().
 
 ### Installation:
 

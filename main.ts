@@ -9,15 +9,6 @@ export default class ProjectEulerStatsPlugin extends Plugin {
 
 		await this.loadSettings();
 
-		this.addCommand({
-			id: 'add-project-euler-profile',
-			name: 'Add Project Euler profile',
-			editorCallback: (editor: Editor, view: MarkdownView) => {
-				console.log(editor.getSelection());
-				editor.replaceSelection('![Profile](https://projecteuler.net/profile/' + this.settings.account + '.png)');
-			}
-		});
-
 		this.addSettingTab(new ProjectEulerStatsSettingTab(this.app, this));
 
 		this.registerDomEvent(document, 'click', (evt: MouseEvent) => {
@@ -25,6 +16,20 @@ export default class ProjectEulerStatsPlugin extends Plugin {
 		});
 
 		this.registerInterval(window.setInterval(() => console.log('setInterval'), 5 * 60 * 1000));
+
+		this.registerMarkdownCodeBlockProcessor('euler-stats-profile', (source, el, ctx) => {
+			const matchingLine = source.split('\n').find((line) => line.startsWith("account="));
+
+            if (matchingLine) {
+              const account = matchingLine.split("=")[1].trim();
+              const imgElement = el.createEl('img');
+              imgElement.src = 'https://projecteuler.net/profile/' + account + '.png';
+              imgElement.alt = 'Profile ' + account;
+            } else {
+              const divElement = el.createEl('div');
+              divElement.textContent = 'The "account=" parameter is not set or is set incorrectly!';
+            }
+        });
 	}
 
 	onunload() {
