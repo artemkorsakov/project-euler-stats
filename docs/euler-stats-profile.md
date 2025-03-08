@@ -65,12 +65,3 @@ invalid=Artem_Korsakov
 This will generate the following error message:
 
 **The "account=" parameter is not set or is set incorrectly!**
-
----
-
-## Summary
-
-- Use the `account` parameter to specify the profile you want to display.
-- Ensure the `account` parameter is correctly formatted to avoid errors.
-- If the profile does not exist, an image will still be generated, but it may not contain valid data.
-- Always check for configuration errors if the expected output is not displayed.
