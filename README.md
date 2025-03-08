@@ -59,7 +59,7 @@ For more detailed information, please refer to [the documentation](https://artem
 1. Go to Obsidian settings.
 2. Open the "Community Plugins" tab.
 3. Search for the "Project Euler Stats" plugin and install it.
-4. Activate the plugin and configure it according to your preferences.
+4. Activate the plugin and configure it.
 
 ### Requirements:
 
