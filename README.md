@@ -52,7 +52,7 @@ This code block will display your progress, a list of solved problems, and a pro
 
 ![Profile Artem_Korsakov](https://projecteuler.net/profile/Artem_Korsakov.png)
 
-For more detailed information, please refer to [the documentation]().
+For more detailed information, please refer to [the documentation](https://artemkorsakov.github.io/project-euler-obsidian-plugin/).
 
 ### Installation:
 
