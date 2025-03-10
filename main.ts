@@ -1,12 +1,11 @@
 import { App, Editor, MarkdownView, Modal, Notice, Plugin, PluginSettingTab, Setting } from 'obsidian';
-import { ProjectEulerStatsSettings, DEFAULT_SETTINGS, ProjectEulerStatsSettingTab } from "settings";
+import { ProjectEulerStatsSettings, DEFAULT_SETTINGS, ProjectEulerStatsSettingTab } from "helpers/settings";
+import { fetchProgress } from "helpers/fetchers";
 
 export default class ProjectEulerStatsPlugin extends Plugin {
 	settings: ProjectEulerStatsSettings;
 
 	async onload() {
-		console.log('loading project euler stats plugin')
-
 		await this.loadSettings();
 
 		this.addSettingTab(new ProjectEulerStatsSettingTab(this.app, this));
@@ -30,10 +29,20 @@ export default class ProjectEulerStatsPlugin extends Plugin {
               divElement.textContent = 'The "account=" parameter is not set or is set incorrectly!';
             }
         });
+
+        const session = this.settings.session_id;
+        const keep_alive = this.settings.keep_alive;
+        const cookies = 'PHPSESSID=' + session + '; keep_alive=' + keep_alive;
+
+		this.registerMarkdownCodeBlockProcessor('euler-stats', async (source, el, ctx) => {
+            const stats = await fetchProgress(cookies);
+
+            const container = el.createEl('div');
+            container.innerHTML = stats;
+        });
 	}
 
 	onunload() {
-      console.log('unloading project euler stats plugin')
 	}
 
 	async loadSettings() {

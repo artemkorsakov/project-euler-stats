@@ -1,15 +1,11 @@
 import { PluginSettingTab, Setting } from 'obsidian';
 
 export interface ProjectEulerStatsSettings {
-	account: string;
-	alias: string;
 	session_id: string;
 	keep_alive: string;
 }
 
 export const DEFAULT_SETTINGS: ProjectEulerStatsSettings = {
-	account: 'your account',
-	alias: 'your alias',
 	session_id: '',
 	keep_alive: ''
 }
@@ -26,28 +22,6 @@ export class ProjectEulerStatsSettingTab extends PluginSettingTab {
 		const {containerEl} = this;
 
 		containerEl.empty();
-
-		new Setting(containerEl)
-			.setName('Account')
-			.setDesc('Project Euler account')
-			.addText(text => text
-				.setPlaceholder('Enter account')
-				.setValue(this.plugin.settings.account)
-				.onChange(async (value) => {
-					this.plugin.settings.account = value;
-					await this.plugin.saveSettings();
-				}));
-
-		new Setting(containerEl)
-			.setName('Alias')
-			.setDesc('Project Euler alias')
-			.addText(text => text
-				.setPlaceholder('Enter alias')
-				.setValue(this.plugin.settings.alias)
-				.onChange(async (value) => {
-					this.plugin.settings.alias = value;
-					await this.plugin.saveSettings();
-				}));
 
 		new Setting(containerEl)
 			.setName('Session Id')
