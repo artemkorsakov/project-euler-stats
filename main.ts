@@ -1,6 +1,6 @@
 import { App, Editor, MarkdownView, Modal, Notice, Plugin, PluginSettingTab, Setting } from 'obsidian';
 import { ProjectEulerStatsSettings, DEFAULT_SETTINGS, ProjectEulerStatsSettingTab } from "helpers/settings";
-import { fetchProgress } from "helpers/fetchers";
+import { fetchProgress } from "helpers/fetchProgress";
 
 export default class ProjectEulerStatsPlugin extends Plugin {
 	settings: ProjectEulerStatsSettings;
