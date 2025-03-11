@@ -1,4 +1,4 @@
-import { AccountData, ProgressData, RatingData } from './types';
+import { AccountData, ProgressData, RatingData, LevelData } from './types';
 
 /**
  * Extracts the number of solved problems from a progress string.
@@ -87,4 +87,29 @@ export function parseEuleriansData(html: string): string {
     const doc = parser.parseFromString(html, 'text/html');
 
     return doc.querySelector('#id_current > td.rank_column')?.textContent.trim() || 'You are not in Eulerians\' rating';
+}
+
+export function parseLevelData(html: string): LevelData[] {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, 'text/html');
+
+    // Находим все элементы, соответствующие селектору
+    const tileBoxes = doc.querySelectorAll('#tile_grid > .tile_box');
+
+    // Создаём массив для хранения результатов
+    const levels: LevelData[] = [];
+
+    // Проходим по каждому элементу
+    tileBoxes.forEach(tileBox => {
+        const levelElement = tileBox.querySelector('a');
+        const membersElement = tileBox.querySelector('.small_notice');
+
+        const level = levelElement?.textContent.trim() || '';
+        const members = membersElement?.textContent.trim() || '';
+
+        // Создаём объект LevelData и добавляем его в массив
+        levels.push(new LevelData(level, members));
+    });
+
+    return levels;
 }

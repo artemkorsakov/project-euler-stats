@@ -36,3 +36,10 @@ export class RatingData {
         public top1: number
     ) {}
 }
+
+export class LevelData {
+    constructor(
+        public level: string,
+        public members: string
+    ) {}
+}

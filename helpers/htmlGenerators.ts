@@ -1,4 +1,5 @@
-import { AccountData, ProgressData, RatingData } from './types';
+import { stringToNumber } from './parsers';
+import { AccountData, ProgressData, RatingData, LevelData } from './types';
 
 /**
  * Generates HTML for the profile section.
@@ -103,3 +104,50 @@ export function generateRatingTableHTML(title: string, solved: number, rating: R
         </table>
     `;
 }
+
+export function generateLevelsTableHTML(progressData: ProgressData, levelDataArray: LevelData[]): string {
+    const level = stringToNumber(progressData.level);
+
+    // Проверяем, что levelDataArray не пустой и уровень не выходит за пределы массива
+    if (!levelDataArray.length || level >= levelDataArray.length) {
+        return `<h2>No levels available</h2>`;
+    }
+
+    // Используем slice для получения подмассива, начиная с текущего уровня
+    const slicedArray = levelDataArray.slice(level - 1);
+
+    // Преобразуем каждый элемент в строку <tr>
+    const rows = slicedArray.map(levelData => {
+		const rowLevel = stringToNumber(levelData.level);
+        const needForLevel = rowLevel * 25;
+        const remaining = Math.max(0, needForLevel - progressData.solved);
+
+        return `
+            <tr>
+                <td><a href="https://projecteuler.net/level=${rowLevel}">${levelData.level}</a></td>
+                <td>${needForLevel}</td>
+                <td>${remaining}</td>
+                <td>${levelData.members}</td>
+            </tr>
+        `;
+    }).join('');
+
+    const allMembers = slicedArray.reduce((total, levelData) => {
+            const membersCount = stringToNumber(levelData.members);
+            return total + (isNaN(membersCount) ? 0 : membersCount);
+        }, 0);
+
+    return `
+        <h2>Level progress</h2>
+        <h4>Current level: ${progressData.level}</h4>
+        <h5>Solved problems: ${progressData.solved}</h5>
+        <h5>Status: ${allMembers} members have made it this far.</h5>
+        <table>
+            <tbody>
+                <tr><th>Level</th><th>Solve</th><th>Remaining</th><th>Members</th></tr>
+                ${rows}
+            </tbody>
+        </table>
+    `;
+}
+
