@@ -1,5 +1,5 @@
 import { stringToNumber } from './parsers';
-import { AccountData, ProgressData, RatingData, LevelData } from './types';
+import { AccountData, AwardData, AwardBlockData, ProgressData, RatingData, LevelData } from './types';
 
 /**
  * Generates HTML for the profile section.
@@ -148,6 +148,46 @@ export function generateLevelsTableHTML(progressData: ProgressData, levelDataArr
                 ${rows}
             </tbody>
         </table>
+    `;
+}
+export function generateAwardsTableHTML(awardsData: AwardBlockData[]): string {
+    const tables = awardsData.map(awardData => {
+        const awards = awardData.awards;
+        const length = awards.length;
+
+        // Подсчитываем завершенные и создаем строки таблицы за один проход
+        const { completed, rows } = awards.reduce((acc, { award, link, description, isCompleted, progress, members }) => {
+            if (isCompleted) {
+                acc.completed++;
+            } else {
+                acc.rows.push(`
+                    <tr>
+                        <td><a href="${link}">${award}</a></td>
+                        <td>${description}</td>
+                        <td>${progress}</td>
+                        <td>${members}</td>
+                    </tr>
+                `);
+            }
+            return acc;
+        }, { completed: 0, rows: [] });
+
+        return `
+            <h3>${awardData.name}</h3>
+            <h4>Status: Won ${completed} out of ${length}</h4>
+            <h4>Uncompleted awards: ${length - completed}</h4>
+            <table>
+                <tbody>
+                    <tr><th>Award</th><th>Description</th><th>Progress</th><th>Members</th></tr>
+                    ${rows.join('')}
+                </tbody>
+            </table>
+        `;
+    }).join('');
+
+    return `
+        <h2>Awards</h2>
+        ${tables}
     `;
 }
 

@@ -1,4 +1,4 @@
-import { AccountData, ProgressData, RatingData, LevelData } from './types';
+import { AccountData, AwardData, AwardBlockData, ProgressData, RatingData, LevelData } from './types';
 
 /**
  * Extracts the number of solved problems from a progress string.
@@ -96,20 +96,50 @@ export function parseLevelData(html: string): LevelData[] {
     // Находим все элементы, соответствующие селектору
     const tileBoxes = doc.querySelectorAll('#tile_grid > .tile_box');
 
-    // Создаём массив для хранения результатов
-    const levels: LevelData[] = [];
-
-    // Проходим по каждому элементу
-    tileBoxes.forEach(tileBox => {
+    // Используем map для создания массива LevelData
+    return Array.from(tileBoxes).map(tileBox => {
         const levelElement = tileBox.querySelector('a');
         const membersElement = tileBox.querySelector('.small_notice');
 
-        const level = levelElement?.textContent.trim() || '';
-        const members = membersElement?.textContent.trim() || '';
+        return new LevelData(
+            levelElement?.textContent.trim() ?? '',
+            membersElement?.textContent.trim() ?? ''
+        );
+    });
+}
 
-        // Создаём объект LevelData и добавляем его в массив
-        levels.push(new LevelData(level, members));
+export function parseAwardsData(myAwardsHtml: string, awardsHtml: string): AwardBlockData[] {
+    const parser = new DOMParser();
+    const myAwardsDoc = parser.parseFromString(myAwardsHtml, 'text/html');
+    const awardsDoc = parser.parseFromString(awardsHtml, 'text/html');
+
+    const myAwardsBlockElements = myAwardsDoc.querySelectorAll('div#awards_section > div');
+    const awardsBlockElements = awardsDoc.querySelectorAll('div#tile_grid > div.tile_box');
+    const membersTextArray = Array.from(awardsBlockElements).map(el => el.outerText.trim());
+
+    const awardBlocks: AwardBlockData[] = Array.from(myAwardsBlockElements).map(myAwardsBlockElement => {
+        const name = myAwardsBlockElement.querySelector('h3')?.textContent || '';
+        const awardsElements = myAwardsBlockElement.querySelectorAll('div.award_box');
+
+        const awards: AwardData[] = Array.from(awardsElements).map(awardsElement => {
+            const award = awardsElement.querySelector('span.tooltiptext_narrow > div:first-of-type')?.textContent || '';
+            const href = awardsElement.querySelector('a')?.getAttribute('href') || '';
+            const link = `https://projecteuler.net/${href}`;
+            const tooltipText = awardsElement.querySelector('span.tooltiptext_narrow')?.textContent || '';
+            const tooltipTextParts = tooltipText.split("Progress:");
+
+            const description = tooltipTextParts[0].replace(award, '').replace('Completed', '').trim();
+            const isCompleted = tooltipText.endsWith('Completed');
+            const progress = tooltipTextParts[1]?.trim() || '';
+
+            const membersSource = membersTextArray.find(memberText => memberText.startsWith(award)) ?? '\n0 members';
+            const members = membersSource.split('\n').pop() || '0 members';
+
+            return new AwardData(award, link, description, isCompleted, progress, members);
+        });
+
+        return new AwardBlockData(name, awards);
     });
 
-    return levels;
+    return awardBlocks;
 }
