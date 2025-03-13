@@ -1,8 +1,149 @@
-/*
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    margin: 0;
+    padding: 20px;
+}
 
-This CSS file will be included with your plugin, and
-available in the app when your plugin is enabled.
+h2 {
+    color: #2c3e50;
+    border-bottom: 2px solid #2980b9;
+    padding-bottom: 10px;
+}
 
-If your plugin does not need CSS, delete this file.
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
 
-*/
+th {
+    background-color: #2980b9;
+    color: white;
+    padding: 10px;
+}
+
+td {
+    background-color: #ecf0f1;
+    padding: 10px;
+    border: 1px solid #bdc3c7;
+}
+
+tr:nth-child(even) td {
+    background-color: #dfe6e9;
+}
+
+a {
+    color: #2980b9;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+ul {
+    background-color: #ffffff;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+li {
+    margin: 10px 0;
+}
+
+h3, h4, h5 {
+    color: #34495e;
+}
+
+h4 {
+    font-weight: normal;
+}
+
+h5 {
+    font-size: 0.9em;
+    color: #7f8c8d;
+}
+
+/* Стили таблицы профиля */
+.profile-table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 20px 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.profile-table td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    transition: background-color 0.3s;
+}
+
+.profile-table td:hover {
+    background-color: var(--background-light);
+}
+
+/* Стили для задач */
+.tasks-list {
+    margin: 20px 0;
+    padding: 15px;
+    background-color: var(--background-light);
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.tasks-list li {
+    padding: 10px;
+    margin: 5px 0;
+    border-left: 4px solid var(--warning-color);
+    background-color: white;
+    border-radius: 4px;
+    transition: transform 0.2s;
+}
+
+.tasks-list li:hover {
+    transform: translateX(5px);
+}
+
+/* Анимации */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.next-goal {
+    animation: pulse 2s infinite;
+}
+
+/* Медиа-запросы для адаптивности */
+@media (max-width: 768px) {
+    .progress-bar-container {
+        margin: 10px 0;
+    }
+    
+    .tasks-list {
+        padding: 10px;
+    }
+    
+    .award-row {
+        padding: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .progress-bar-height {
+        height: 15px;
+    }
+    
+    .profile-table td {
+        padding: 8px;
+        font-size: 14px;
+    }
+}
+
+#your-account td {
+    background-color: #90ee90; /* Светло-зеленый цвет */
+}

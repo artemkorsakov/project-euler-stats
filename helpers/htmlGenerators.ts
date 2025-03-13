@@ -10,7 +10,7 @@ import { AccountData, AwardData, AwardBlockData, FriendData, ProgressData, Ratin
 export function generateProfileHTML(accountData: AccountData, progressData: ProgressData): string {
     return `
         <h2>Profile</h2>
-        <table>
+        <table class="profile-table">
             <tbody>
                 <tr><td>Account</td><td>${accountData.account}</td></tr>
                 <tr><td>Alias</td><td>${accountData.alias}</td></tr>
@@ -106,8 +106,8 @@ export function generateProgressTableHTML(
             </tbody>
         </table>
         <h3>Tasks</h3>
-        <ul>
-          <li>${progressData.level}: ${progressData.toTheNext}</li>
+        <ul class="tasks-list">
+          <li class="next-goal">${progressData.level}: ${progressData.toTheNext}</li>
           <li>${accountData.location}: ${determineTop(progressData.solved, locationRating)}</li>
           <li>${accountData.language}: ${determineTop(progressData.solved, languageRating)}</li>
           ${awardPlace}
@@ -167,7 +167,7 @@ export function generateLevelsTableHTML(progressData: ProgressData, levelDataArr
         const remaining = Math.max(0, needForLevel - progressData.solved);
 
         return `
-            <tr>
+            <tr">
                 <td><a href="https://projecteuler.net/level=${rowLevel}">${levelData.level}</a></td>
                 <td>${needForLevel}</td>
                 <td>${remaining}</td>
@@ -239,16 +239,15 @@ export function generateFriendsHTML(friends: FriendData[], accountData: AccountD
 	const myAccount = friends.find(friend => friend.username === accountData.alias) ?? new FriendData( `-`, accountData.alias, 0, 0, 0);
 
 	const rows = friends.map(friend => {
-		const rank = friend.username === accountData.alias ? `<b>${friend.rank}</b>` : friend.rank;
-		const link = `<a href="https://projecteuler.net/progress=${friend.username}">${friend.username}</a>`;
-		const username = friend.username === accountData.alias ? `<b>${link}</b>` : link;
-		const solved = friend.username === accountData.alias ? `<b>${friend.solved}</b>` : friend.solved > myAccount.solved ? `${friend.solved} (+${friend.solved - myAccount.solved})` : friend.solved;
-		const level = friend.username === accountData.alias ? `<b>${friend.level}</b>` : friend.level > myAccount.level ? `${friend.level} (+${friend.level - myAccount.level})` : friend.level;
-		const awards = friend.username === accountData.alias ? `<b>${friend.awards}</b>` : friend.awards > myAccount.awards ? `${friend.awards} (+${friend.awards - myAccount.awards})` : friend.awards;
+		const idCss = friend.username === accountData.alias ? 'id="your-account"' : '';
+		const username = `<a href="https://projecteuler.net/progress=${friend.username}">${friend.username}</a>`;
+		const solved = friend.username === accountData.alias ? friend.solved : friend.solved > myAccount.solved ? `${friend.solved} (+${friend.solved - myAccount.solved})` : friend.solved;
+		const level = friend.username === accountData.alias ? friend.level : friend.level > myAccount.level ? `${friend.level} (+${friend.level - myAccount.level})` : friend.level;
+		const awards = friend.username === accountData.alias ? friend.awards : friend.awards > myAccount.awards ? `${friend.awards} (+${friend.awards - myAccount.awards})` : friend.awards;
 
         return `
-            <tr>
-                <td>${rank}</td>
+            <tr ${idCss}>
+                <td>${friend.rank}</td>
                 <td>${username}</td>
                 <td>${solved}</td>
                 <td>${level}</td>
