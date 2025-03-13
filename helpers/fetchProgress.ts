@@ -5,7 +5,8 @@ import {
     parseProgressData,
     parseRatingData,
     parseEuleriansData,
-    parseLevelData
+    parseLevelData,
+    parseFriends
 } from './parsers';
 import {
     generateProfileHTML,
@@ -13,7 +14,8 @@ import {
     generateProgressTableHTML,
     generateRatingTableHTML,
     generateLevelsTableHTML,
-    generateAwardsTableHTML
+    generateAwardsTableHTML,
+    generateFriendsHTML
 } from './htmlGenerators';
 import {
     AccountData,
@@ -34,13 +36,14 @@ export async function fetchProgress(cookies: string): Promise<string> {
         const progressData = await fetchData('https://projecteuler.net/progress', parseProgressData, cookies);
         const euleriansPlace = await fetchData('https://projecteuler.net/eulerians', parseEuleriansData, cookies);
         const levelDataArray = await fetchData('https://projecteuler.net/levels', parseLevelData, cookies);
+        const friends = await fetchData('https://projecteuler.net/friends', parseFriends, cookies);
 
         const locationUrl = `https://projecteuler.net/location=${accountData.location}`;
         const languageUrl = `https://projecteuler.net/language=${accountData.language}`;
         const { locationRating, languageRating } = await fetchRatings(locationUrl, languageUrl, cookies);
         const awardsData = await fetchAwardsData(cookies);
 
-        return generateHTML(accountData, progressData, euleriansPlace, locationUrl, languageUrl, locationRating, languageRating, levelDataArray, awardsData);
+        return generateHTML(accountData, progressData, euleriansPlace, locationUrl, languageUrl, locationRating, languageRating, levelDataArray, awardsData, friends);
     } catch (error) {
         return `<div>Error fetching progress: ${error.message}.</div>`;
     }
@@ -73,21 +76,25 @@ async function fetchAwardsData(cookies: string): Promise<AwardBlockData[]> {
     return parseAwardsData(myAwardsHtml, awardsHtml);
 }
 
-function generateHTML(accountData: AccountData, progressData: ProgressData, euleriansPlace: string, locationUrl: string, languageUrl: string, locationRating: RatingData, languageRating: RatingData, levelDataArray: LevelData[], awardsData: AwardBlockData[]): string {
+function generateHTML(accountData: AccountData, progressData: ProgressData, euleriansPlace: string, locationUrl: string, languageUrl: string, locationRating: RatingData, languageRating: RatingData, levelDataArray: LevelData[], awardsData: AwardBlockData[], friends: FriendData[]): string {
     const profileHTML = generateProfileHTML(accountData, progressData);
     console.log("Successfully generated profile HTML.");
     const imageHTML = generateImageHTML(accountData.account);
     console.log("Successfully generated image HTML.");
-    const progressHTML = generateProgressTableHTML(accountData, progressData, locationUrl, languageUrl, euleriansPlace, locationRating, languageRating);
+    const progressHTML = generateProgressTableHTML(accountData, progressData, locationUrl, languageUrl, euleriansPlace, locationRating, languageRating, awardsData);
     console.log("Successfully generated progress HTML.");
-    const locationRatingHTML = generateRatingTableHTML(`Progress in the ${accountData.location}'s rating`, progressData.solved, locationRating);
+    const locationTitle = `Progress in <a href="${locationUrl}">the ${accountData.location}'s rating</a>`
+    const locationRatingHTML = generateRatingTableHTML(locationTitle, progressData.solved, locationRating);
     console.log("Successfully generated location rating HTML.");
-    const languageRatingHTML = generateRatingTableHTML(`Progress in the ${accountData.language}'s rating`, progressData.solved, languageRating);
+    const languageTitle = `Progress in <a href="${languageUrl}">the ${accountData.language}'s rating</a>`
+    const languageRatingHTML = generateRatingTableHTML(languageTitle, progressData.solved, languageRating);
     console.log("Successfully generated language rating HTML.");
     const levelsHTML = generateLevelsTableHTML(progressData, levelDataArray);
     console.log("Successfully generated levels HTML.");
     const awardsHTML = generateAwardsTableHTML(awardsData);
     console.log("Successfully generated awards HTML.");
+    const friendsHTML = generateFriendsHTML(friends, accountData);
+    console.log("Successfully generated friends HTML.");
 
-    return profileHTML + imageHTML + progressHTML + locationRatingHTML + languageRatingHTML + levelsHTML + awardsHTML;
+    return profileHTML + imageHTML + progressHTML + locationRatingHTML + languageRatingHTML + levelsHTML + awardsHTML + friendsHTML;
 }

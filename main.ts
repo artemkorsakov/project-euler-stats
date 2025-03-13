@@ -37,6 +37,8 @@ export default class ProjectEulerStatsPlugin extends Plugin {
 		this.registerMarkdownCodeBlockProcessor('euler-stats', async (source, el, ctx) => {
             const stats = await fetchProgress(cookies);
 
+            console.log(stats)
+
             const container = el.createEl('div');
             container.innerHTML = stats;
         });

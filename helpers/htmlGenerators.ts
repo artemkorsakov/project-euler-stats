@@ -1,5 +1,5 @@
 import { stringToNumber } from './parsers';
-import { AccountData, AwardData, AwardBlockData, ProgressData, RatingData, LevelData } from './types';
+import { AccountData, AwardData, AwardBlockData, FriendData, ProgressData, RatingData, LevelData } from './types';
 
 /**
  * Generates HTML for the profile section.
@@ -33,6 +33,41 @@ export function generateImageHTML(account: string): string {
     return `<img src="${imageSrc}" alt="Profile ${account}" title="${account}">`;
 }
 
+export function determineTop(solved: number, rating: RatingData): string {
+    const thresholds = [
+        { limit: 100, top: rating.top100, message: 'Top 100' },
+        { limit: 50, top: rating.top50, message: 'Top 50' },
+        { limit: 25, top: rating.top25, message: 'Top 25' },
+        { limit: 10, top: rating.top10, message: 'Top 10' },
+        { limit: 5, top: rating.top5, message: 'Top 5' },
+        { limit: 1, top: rating.top1, message: 'Top 1' },
+    ];
+
+    for (const { limit, top, message } of thresholds) {
+        if (rating.place > limit) {
+            return `${top - solved + 1} problems away from ${message}`;
+        }
+    }
+
+    return 'You are in the Top 1';
+}
+
+/**
+ * Функция для нахождения AwardData с максимальным значением members.
+ * @param awardBlocks - Массив AwardBlockData.
+ * @returns AwardData с максимальным значением members или null, если не найдено.
+ */
+export function findAwardWithMaxMembers(awardBlocks: AwardBlockData[]): AwardData | null {
+    const allAwards = awardBlocks.flatMap(block => block.awards).filter(award => !award.isCompleted);;
+
+    return allAwards.reduce((maxAward, currentAward) => {
+        const currentMembers = parseInt(currentAward.members.replace(/\D/g, '')) || 0;
+        const maxMembers = parseInt(maxAward.members.replace(/\D/g, '')) || 0;
+
+        return currentMembers > maxMembers ? currentAward : maxAward;
+    }, allAwards[0] || null);
+}
+
 /**
  * Generates HTML for the progress table.
  * @param accountData - The account data.
@@ -51,10 +86,13 @@ export function generateProgressTableHTML(
     languageUrl: string,
     euleriansPlace: string,
     locationRating: RatingData,
-    languageRating: RatingData
+    languageRating: RatingData,
+    awardsData: AwardBlockData[]
 ): string {
     const locationPlace = locationRating.place > 100 ? 'You are not in the Top 100' : locationRating.place;
     const languagePlace = languageRating.place > 100 ? 'You are not in the Top 100' : languageRating.place;
+    const award = findAwardWithMaxMembers(awardsData);
+    const awardPlace = award ? `<li>Most unresolved award: <a href="${award.link}">${award.award}</a> (${award.description}) by ${award.members}</li>` : '';
 
     return `
         <h2>Progress</h2>
@@ -62,12 +100,18 @@ export function generateProgressTableHTML(
             <tbody>
                 <tr><th>Competition</th><th>Status</th></tr>
                 <tr><td>Progress</td><td>${progressData.progress}</td></tr>
-                <tr><td>To the next level</td><td>${progressData.toTheNext}</td></tr>
                 <tr><td>Place in <a href="https://projecteuler.net/eulerians">Eulerians</a></td><td>${euleriansPlace}</td></tr>
                 <tr><td>Place in <a href="${locationUrl}">${accountData.location}</a></td><td>${locationPlace}</td></tr>
                 <tr><td>Place in <a href="${languageUrl}">${accountData.language}</a></td><td>${languagePlace}</td></tr>
             </tbody>
         </table>
+        <h3>Tasks</h3>
+        <ul>
+          <li>${progressData.level}: ${progressData.toTheNext}</li>
+          <li>${accountData.location}: ${determineTop(progressData.solved, locationRating)}</li>
+          <li>${accountData.language}: ${determineTop(progressData.solved, languageRating)}</li>
+          ${awardPlace}
+        </ul>
     `;
 }
 
@@ -81,11 +125,11 @@ export function generateProgressTableHTML(
 export function generateRatingTableHTML(title: string, solved: number, rating: RatingData): string {
     const place = rating.place > 100 ? 'You are not in the Top 100' : rating.place;
     const top1Row = rating.place >= 1 ? `<tr><td>Top 1</td><td>${rating.top1}</td><td>${rating.top1 - solved + 1} problems away from Top 1</td></tr>` : '';
-    const top5Row = rating.place >= 5 ? `<tr><td>Top 5</td><td>${rating.top5}</td><td>${rating.top5 - solved + 1} problems away from Top 5</td></tr>` : '';
-    const top10Row = rating.place >= 10 ? `<tr><td>Top 10</td><td>${rating.top10}</td><td>${rating.top10 - solved + 1} problems away from Top 10</td></tr>` : '';
-    const top25Row = rating.place >= 25 ? `<tr><td>Top 25</td><td>${rating.top25}</td><td>${rating.top25 - solved + 1} problems away from Top 25</td></tr>` : '';
-    const top50Row = rating.place >= 50 ? `<tr><td>Top 50</td><td>${rating.top50}</td><td>${rating.top50 - solved + 1} problems away from Top 50</td></tr>` : '';
-    const top100Row = rating.place >= 100 ? `<tr><td>Top 100</td><td>${rating.top100}</td><td>${rating.top100 - solved + 1} problems away from Top 100</td></tr>` : '';
+    const top5Row = rating.place > 5 ? `<tr><td>Top 5</td><td>${rating.top5}</td><td>${rating.top5 - solved + 1} problems away from Top 5</td></tr>` : '';
+    const top10Row = rating.place > 10 ? `<tr><td>Top 10</td><td>${rating.top10}</td><td>${rating.top10 - solved + 1} problems away from Top 10</td></tr>` : '';
+    const top25Row = rating.place > 25 ? `<tr><td>Top 25</td><td>${rating.top25}</td><td>${rating.top25 - solved + 1} problems away from Top 25</td></tr>` : '';
+    const top50Row = rating.place > 50 ? `<tr><td>Top 50</td><td>${rating.top50}</td><td>${rating.top50 - solved + 1} problems away from Top 50</td></tr>` : '';
+    const top100Row = rating.place > 100 ? `<tr><td>Top 100</td><td>${rating.top100}</td><td>${rating.top100 - solved + 1} problems away from Top 100</td></tr>` : '';
 
     return `
         <h2>${title}</h2>
@@ -191,3 +235,35 @@ export function generateAwardsTableHTML(awardsData: AwardBlockData[]): string {
     `;
 }
 
+export function generateFriendsHTML(friends: FriendData[], accountData: AccountData): string {
+	const myAccount = friends.find(friend => friend.username === accountData.alias) ?? new FriendData( `-`, accountData.alias, 0, 0, 0);
+
+	const rows = friends.map(friend => {
+		const rank = friend.username === accountData.alias ? `<b>${friend.rank}</b>` : friend.rank;
+		const link = `<a href="https://projecteuler.net/progress=${friend.username}">${friend.username}</a>`;
+		const username = friend.username === accountData.alias ? `<b>${link}</b>` : link;
+		const solved = friend.username === accountData.alias ? `<b>${friend.solved}</b>` : friend.solved > myAccount.solved ? `${friend.solved} (+${friend.solved - myAccount.solved})` : friend.solved;
+		const level = friend.username === accountData.alias ? `<b>${friend.level}</b>` : friend.level > myAccount.level ? `${friend.level} (+${friend.level - myAccount.level})` : friend.level;
+		const awards = friend.username === accountData.alias ? `<b>${friend.awards}</b>` : friend.awards > myAccount.awards ? `${friend.awards} (+${friend.awards - myAccount.awards})` : friend.awards;
+
+        return `
+            <tr>
+                <td>${rank}</td>
+                <td>${username}</td>
+                <td>${solved}</td>
+                <td>${level}</td>
+                <td>${awards}</td>
+            </tr>
+        `;
+    });
+
+    return `
+    <h2>Friends</h2>
+    <table>
+        <tbody>
+            <tr><th>Rank</th><th>Username</th><th>Solved</th><th>Level</th><th>Awards</th></tr>
+            ${rows.join('')}
+        </tbody>
+    </table>
+    `;
+}

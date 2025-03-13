@@ -1,4 +1,4 @@
-import { AccountData, AwardData, AwardBlockData, ProgressData, RatingData, LevelData } from './types';
+import { AccountData, AwardData, AwardBlockData, FriendData, ProgressData, RatingData, LevelData } from './types';
 
 /**
  * Extracts the number of solved problems from a progress string.
@@ -142,4 +142,21 @@ export function parseAwardsData(myAwardsHtml: string, awardsHtml: string): Award
     });
 
     return awardBlocks;
+}
+
+export function parseFriends(html: string): FriendData[] {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, 'text/html');
+
+    const rows = doc.querySelectorAll('#friends_table > tbody > tr');
+
+    return Array.from(rows).slice(1).map(row => {
+        const rank = row.querySelector('td.rank_column')?.textContent || '';
+        const username = row.querySelector('td.username_column a')?.textContent || '';
+        const solved = stringToNumber(row.querySelector('td.solved_column')?.textContent || '0');
+        const level = stringToNumber(row.querySelector('td.level_column')?.textContent || '0');
+        const awards = stringToNumber(row.querySelector('td.awards_column')?.textContent || '0');
+
+        return new FriendData(rank, username, solved, level, awards);
+    });
 }

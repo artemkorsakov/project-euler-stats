@@ -89,3 +89,13 @@ export class AwardData {
         public members: string
     ) {}
 }
+
+export class FriendData {
+	constructor(
+		public rank: string,
+		public username: string,
+		public solved: number,
+		public level: number,
+		public awards: number
+	) {}
+}
