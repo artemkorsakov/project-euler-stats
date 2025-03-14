@@ -120,24 +120,12 @@ h5 {
 
 /* Медиа-запросы для адаптивности */
 @media (max-width: 768px) {
-    .progress-bar-container {
-        margin: 10px 0;
-    }
-    
     .tasks-list {
-        padding: 10px;
-    }
-    
-    .award-row {
         padding: 10px;
     }
 }
 
 @media (max-width: 480px) {
-    .progress-bar-height {
-        height: 15px;
-    }
-    
     .profile-table td {
         padding: 8px;
         font-size: 14px;
@@ -146,4 +134,37 @@ h5 {
 
 #your-account td {
     background-color: #90ee90; /* Светло-зеленый цвет */
+}
+
+/* Контейнер для progress bar */
+.progress-container {
+    width: 100%; /* Занимает всю ширину ячейки таблицы */
+    background-color: #e0e0e0; /* Фон контейнера */
+    border-radius: 4px; /* Закругленные углы */
+    overflow: hidden; /* Скрываем содержимое, выходящее за пределы */
+    height: 12px; /* Компактная высота */
+    position: relative; /* Для позиционирования текста */
+}
+
+/* Сам progress bar */
+.progress-bar {
+    position: absolute; /* Позиционируем текст поверх progress bar */
+    top: 0%; /* Выравниваем по вертикали */
+    left: 0%; /* Выравниваем по горизонтали */
+    height: 100%; /* Занимает всю высоту контейнера */
+    background-color: #1abc9c; /* Цвет прогресса */
+    border-radius: 4px; /* Закругленные углы */
+    padding: 0; /* Отсутствие отступов */
+}
+
+/* Текст с процентом */
+.progress-text {
+    position: absolute; /* Позиционируем текст поверх progress bar */
+    top: 50%; /* Выравниваем по вертикали */
+    left: 50%; /* Выравниваем по горизонтали */
+    transform: translate(-50%, -50%); /* Центрируем текст */
+    color: #2c3e50; /* Цвет текста */
+    font-size: 10px; /* Компактный размер шрифта */
+    font-weight: bold; /* Жирный шрифт */
+    white-space: nowrap; /* Текст не переносится */
 }

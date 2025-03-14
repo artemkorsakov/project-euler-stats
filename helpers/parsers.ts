@@ -12,6 +12,13 @@ export function extractSolvedCount(text: string): number {
     return match && match[1] ? parseInt(match[1], 10) : 0;
 }
 
+function extractPercentage(input: string): number {
+    const regex = /(\d+(\.\d+)?)%/;
+    const match = input.match(regex);
+
+    return match ? parseFloat(match[1]) : 0;
+}
+
 /**
  * Converts a string to a number by removing non-numeric characters.
  * @param input - The input string.
@@ -52,9 +59,10 @@ export function parseProgressData(html: string): ProgressData {
     const level = doc.querySelector('h3#level_text')?.textContent || '';
     const progress = doc.querySelector('div#progress_page > h3')?.textContent || '';
     const solved = extractSolvedCount(progress);
+    const percentage = extractPercentage(progress);
     const toTheNext = doc.querySelector('#progress_page > .progress_bar_with_threshold > span')?.textContent || '';
 
-    return new ProgressData(level, solved, progress, toTheNext);
+    return new ProgressData(level, solved, percentage, progress, toTheNext);
 }
 
 /**
@@ -108,6 +116,22 @@ export function parseLevelData(html: string): LevelData[] {
     });
 }
 
+function calculatePercentage(input: string): number {
+    const regex = /(\d+)\s*\/\s*(\d+)/;
+    const match = input.match(regex);
+
+    if (match) {
+        const solved = parseInt(match[1], 10);
+        const total = parseInt(match[2], 10);
+
+        if (total > 0) {
+            return ((solved / total) * 100).toFixed(2);
+        }
+    }
+
+    return 0;
+}
+
 export function parseAwardsData(myAwardsHtml: string, awardsHtml: string): AwardBlockData[] {
     const parser = new DOMParser();
     const myAwardsDoc = parser.parseFromString(myAwardsHtml, 'text/html');
@@ -131,11 +155,12 @@ export function parseAwardsData(myAwardsHtml: string, awardsHtml: string): Award
             const description = tooltipTextParts[0].replace(award, '').replace('Completed', '').trim();
             const isCompleted = tooltipText.endsWith('Completed');
             const progress = tooltipTextParts[1]?.trim() || '';
+            const percentage = calculatePercentage(progress);
 
             const membersSource = membersTextArray.find(memberText => memberText.startsWith(award)) ?? '\n0 members';
             const members = membersSource.split('\n').pop() || '0 members';
 
-            return new AwardData(award, link, description, isCompleted, progress, members);
+            return new AwardData(award, link, description, isCompleted, progress, percentage, members);
         });
 
         return new AwardBlockData(name, awards);

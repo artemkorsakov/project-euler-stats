@@ -16,20 +16,6 @@ export default class ProjectEulerStatsPlugin extends Plugin {
 
 		this.registerInterval(window.setInterval(() => console.log('setInterval'), 5 * 60 * 1000));
 
-		this.registerMarkdownCodeBlockProcessor('euler-stats-profile', (source, el, ctx) => {
-			const matchingLine = source.split('\n').find((line) => line.startsWith("account="));
-
-            if (matchingLine) {
-              const account = matchingLine.split("=")[1].trim();
-              const imgElement = el.createEl('img');
-              imgElement.src = 'https://projecteuler.net/profile/' + account + '.png';
-              imgElement.alt = 'Profile ' + account;
-            } else {
-              const divElement = el.createEl('div');
-              divElement.textContent = 'The "account=" parameter is not set or is set incorrectly!';
-            }
-        });
-
         const session = this.settings.session_id;
         const keep_alive = this.settings.keep_alive;
         const cookies = 'PHPSESSID=' + session + '; keep_alive=' + keep_alive;

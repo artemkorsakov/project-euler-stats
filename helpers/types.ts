@@ -17,6 +17,7 @@ export class ProgressData {
     constructor(
         public level: string,
         public solved: number,
+        public percentage: number,
         public progress: string,
         public toTheNext: string
     ) {}
@@ -78,6 +79,7 @@ export class AwardData {
      * @param description - A description of the award.
      * @param isCompleted - A boolean indicating whether the award has been completed.
      * @param progress - A string representing the progress associated with the award.
+     * @param percentage - A number representing the percentage of completion.
      * @param members - A string representing the members associated with this award.
      */
     constructor(
@@ -86,6 +88,7 @@ export class AwardData {
         public description: string,
         public isCompleted: boolean,
         public progress: string,
+        public percentage: number,
         public members: string
     ) {}
 }

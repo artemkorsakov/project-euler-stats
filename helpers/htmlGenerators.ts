@@ -33,23 +33,35 @@ export function generateImageHTML(account: string): string {
     return `<img src="${imageSrc}" alt="Profile ${account}" title="${account}">`;
 }
 
-export function determineTop(solved: number, rating: RatingData): string {
+interface Result {
+    message: string;
+    percentage: number;
+}
+
+export function determineTop(solved: number, rating: RatingData): Result {
     const thresholds = [
-        { limit: 100, top: rating.top100, message: 'Top 100' },
-        { limit: 50, top: rating.top50, message: 'Top 50' },
-        { limit: 25, top: rating.top25, message: 'Top 25' },
-        { limit: 10, top: rating.top10, message: 'Top 10' },
-        { limit: 5, top: rating.top5, message: 'Top 5' },
-        { limit: 1, top: rating.top1, message: 'Top 1' },
+        { limit: 100, top: rating.top100, title: 'Top 100' },
+        { limit: 50, top: rating.top50, title: 'Top 50' },
+        { limit: 25, top: rating.top25, title: 'Top 25' },
+        { limit: 10, top: rating.top10, title: 'Top 10' },
+        { limit: 5, top: rating.top5, title: 'Top 5' },
+        { limit: 1, top: rating.top1, title: 'Top 1' },
     ];
 
-    for (const { limit, top, message } of thresholds) {
+    for (let i = 0; i < thresholds.length; i++) {
+        const { limit, top, title } = thresholds[i];
         if (rating.place > limit) {
-            return `${top - solved + 1} problems away from ${message}`;
+            const prevTop = i > 0 ? thresholds[i - 1].top : 0; // Получаем предыдущее значение top
+            const rest = top - solved + 1;
+            const all = top - prevTop + 1;
+
+            const percentage = all > 0 ? Math.round(((all - rest) / all) * 100) : 0;
+            const message = `${rest} problems away from ${title}`;
+            return { message, percentage };
         }
     }
 
-    return 'You are in the Top 1';
+    return { message: 'You are in the Top 1', percentage: 100 };
 }
 
 /**
@@ -66,6 +78,17 @@ export function findAwardWithMaxMembers(awardBlocks: AwardBlockData[]): AwardDat
 
         return currentMembers > maxMembers ? currentAward : maxAward;
     }, allAwards[0] || null);
+}
+
+function createProgressBar(percentage: number): string {
+    const clampedPercentage = Math.min(100, Math.max(0, percentage));
+
+    return `
+        <div class="progress-container">
+            <span class="progress-bar" style="width: ${clampedPercentage}%;"></span>
+            <span class="progress-text">${clampedPercentage}%</span>
+        </div>
+    `;
 }
 
 /**
@@ -91,25 +114,44 @@ export function generateProgressTableHTML(
 ): string {
     const locationPlace = locationRating.place > 100 ? 'You are not in the Top 100' : locationRating.place;
     const languagePlace = languageRating.place > 100 ? 'You are not in the Top 100' : languageRating.place;
+
+    const progressPercentage = createProgressBar(progressData.percentage);
+
+    const locationPlaceToTop = locationRating.place > 100 ? 0 : 100 - locationRating.place;
+    const locationPercentage = createProgressBar(locationPlaceToTop);
+    const languagePlaceToTop = languageRating.place > 100 ? 0 : 100 - languageRating.place;
+    const languagePercentage = createProgressBar(languagePlaceToTop);
+
+    const matchToTheNext = progressData.toTheNext.match(/(\d+)/);
+    const countToTheNext = matchToTheNext ? (25 - parseInt(matchToTheNext[1], 10)) * 4 : 0;
+    const toTheNextPercentage = createProgressBar(countToTheNext);
+
+    const locationResult = determineTop(progressData.solved, locationRating)
+    const locationLiElement = `<li>${accountData.location}: ${locationResult.message}. ${createProgressBar(locationResult.percentage)}</li>`;
+
+    const languageResult = determineTop(progressData.solved, languageRating)
+    const languageLiElement = `<li>${accountData.language}: ${languageResult.message}. ${createProgressBar(languageResult.percentage)}</li>`;
+
     const award = findAwardWithMaxMembers(awardsData);
-    const awardPlace = award ? `<li>Most unresolved award: <a href="${award.link}">${award.award}</a> (${award.description}) by ${award.members}</li>` : '';
+    const awardPlace = award ? `<li>Most unresolved award: <a href="${award.link}">${award.award}</a> (${award.description}) by ${award.members}. ${createProgressBar(award.percentage)}</li>` : '';
 
     return `
         <h2>Progress</h2>
+        ${progressPercentage}
         <table>
             <tbody>
-                <tr><th>Competition</th><th>Status</th></tr>
-                <tr><td>Progress</td><td>${progressData.progress}</td></tr>
-                <tr><td>Place in <a href="https://projecteuler.net/eulerians">Eulerians</a></td><td>${euleriansPlace}</td></tr>
-                <tr><td>Place in <a href="${locationUrl}">${accountData.location}</a></td><td>${locationPlace}</td></tr>
-                <tr><td>Place in <a href="${languageUrl}">${accountData.language}</a></td><td>${languagePlace}</td></tr>
+                <tr><th>Competition</th><th>Status</th><th>Progress bar</th></tr>
+                <tr><td>Progress</td><td>${progressData.progress}</td><td>${progressPercentage}</td></tr>
+                <tr><td>Place in <a href="https://projecteuler.net/eulerians">Eulerians</a></td><td>${euleriansPlace}</td><td></td></tr>
+                <tr><td>Place in <a href="${locationUrl}">${accountData.location}</a></td><td>${locationPlace}</td><td>${locationPercentage}</td></tr>
+                <tr><td>Place in <a href="${languageUrl}">${accountData.language}</a></td><td>${languagePlace}</td><td>${languagePercentage}</td></tr>
             </tbody>
         </table>
         <h3>Tasks</h3>
         <ul class="tasks-list">
-          <li class="next-goal">${progressData.level}: ${progressData.toTheNext}</li>
-          <li>${accountData.location}: ${determineTop(progressData.solved, locationRating)}</li>
-          <li>${accountData.language}: ${determineTop(progressData.solved, languageRating)}</li>
+          <li>${progressData.level}: ${progressData.toTheNext}. ${toTheNextPercentage}</li>
+          ${locationLiElement}
+          ${languageLiElement}
           ${awardPlace}
         </ul>
     `;
@@ -200,16 +242,19 @@ export function generateAwardsTableHTML(awardsData: AwardBlockData[]): string {
         const length = awards.length;
 
         // Подсчитываем завершенные и создаем строки таблицы за один проход
-        const { completed, rows } = awards.reduce((acc, { award, link, description, isCompleted, progress, members }) => {
+        const { completed, rows } = awards.reduce((acc, { award, link, description, isCompleted, progress, percentage, members }) => {
             if (isCompleted) {
                 acc.completed++;
             } else {
+				const progressBar = createProgressBar(percentage);
+
                 acc.rows.push(`
                     <tr>
                         <td><a href="${link}">${award}</a></td>
                         <td>${description}</td>
-                        <td>${progress}</td>
                         <td>${members}</td>
+                        <td>${progress}</td>
+                        <td>${progressBar}</td>
                     </tr>
                 `);
             }
@@ -222,7 +267,7 @@ export function generateAwardsTableHTML(awardsData: AwardBlockData[]): string {
             <h4>Uncompleted awards: ${length - completed}</h4>
             <table>
                 <tbody>
-                    <tr><th>Award</th><th>Description</th><th>Progress</th><th>Members</th></tr>
+                    <tr><th>Award</th><th>Description</th><th>Members</th><th>Progress</th><th>Progress bar</th></tr>
                     ${rows.join('')}
                 </tbody>
             </table>
