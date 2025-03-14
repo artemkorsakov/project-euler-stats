@@ -1,65 +1,71 @@
 # Project Euler Stats
 
-This repository contains an Obsidian plugin that allows users to automatically fetch and display statistics 
-from the [Project Euler](https://projecteuler.net/) website. 
-The plugin integrates seamlessly with Obsidian, providing a convenient way 
+This repository contains an Obsidian plugin that allows users to automatically fetch and display statistics
+from the [Project Euler](https://projecteuler.net/) website.
+The plugin integrates seamlessly with Obsidian, providing a convenient way
 to track your Project Euler problem-solving progress directly within your personal knowledge base.
 
-This plugin is perfect for math and programming enthusiasts 
-who want to track their Project Euler achievements directly in Obsidian, 
+This plugin is perfect for math and programming enthusiasts
+who want to track their Project Euler achievements directly in Obsidian,
 integrating them with other knowledge and notes.
 
-### Key Features:
+---
 
-1. **Automatic Statistics Fetching:**
+## Features
 
-	- The plugin connects to your Project Euler account or uses data parsing to retrieve information 
-      about solved problems, progress, and other metrics.
+1. **Profile Information**:
 
-2. **Display Statistics in Obsidian:**
+	- Displays your Project Euler account details, including username, alias, location,
+	  programming language, level, and number of solved problems.
 
-	- The fetched data is displayed as tables, graphs, or text blocks that can be embedded directly into your notes.
+2. **Progress Overview**:
 
-3. **Data Synchronization:**
+	- Shows your overall progress, including the percentage of problems solved
+	  and your rankings in global, regional, and language-specific leaderboards.
 
-	- The plugin can automatically update statistics when Obsidian is opened or upon user request.
+3. **Tasks**:
 
-4. **Customization:**
+	- Lists your current tasks, such as the number of problems remaining
+	  to reach the next level or improve your rankings.
 
-	- Users can customize which data to display (e.g., number of solved problems, 
-      progress by difficulty level, recently solved problems, etc.).
+4. **Awards**:
 
-5. **Integration with Notes:**
-	- The plugin allows you to link solved problems to your Obsidian notes, creating cross-references for easier navigation.
+	- Displays your progress toward earning Project Euler awards, including both completed and uncompleted awards.
 
-### How to Use:
+5. **Friends**:
+	- Compares your progress with your friends on Project Euler.
 
-1. Install the plugin via Community Plugins in Obsidian.
-2. Configure the plugin by providing access details for your Project Euler account.
-3. Use the plugin commands to fetch and display statistics in your notes.
+---
 
-### Example Usage:
+## Installation
+
+1. **Install the Plugin**:
+
+	- Open Obsidian.
+	- Go to **Settings** → **Community plugins**.
+	- Click **Browse** and search for "Project Euler Stats".
+	- Install and enable the plugin.
+
+2. **Configure Your Project Euler Settings**:
+	- After enabling the plugin, go to **Settings** → **Project Euler Stats**.
+	- Enter your `SessionId` and `Keep-Alive` cookie values in the provided fields.
+	- Save the settings.
+
+---
+
+## Usage
+
+To display your Project Euler progress, use the following code block in your Obsidian note:
 
 ````markdown
-## Project Euler Statistics
+```euler-stats
 
-```euler-stats-profile
-account=Artem_Korsakov
 ```
 ````
 
-This code block will display your progress, a list of solved problems, and a progress graph.
-
-![Profile Artem_Korsakov](https://projecteuler.net/profile/Artem_Korsakov.png)
+This will generate a document with your Project Euler statistics, including your profile, progress, tasks, awards, and more.
 
 For more detailed information, please refer to [the documentation](https://artemkorsakov.github.io/project-euler-obsidian-plugin/).
-
-### Installation:
-
-1. Go to Obsidian settings.
-2. Open the "Community Plugins" tab.
-3. Search for the "Project Euler Stats" plugin and install it.
-4. Activate the plugin and configure it.
 
 ### Requirements:
 
@@ -72,5 +78,5 @@ This plugin is distributed under the MIT License. You are free to use, modify, a
 
 ### Contributing:
 
-We welcome contributions from the community! If you'd like to add new features, fix bugs, or improve documentation, 
+We welcome contributions from the community! If you'd like to add new features, fix bugs, or improve documentation,
 feel free to create a pull request or open an issue in the repository.
