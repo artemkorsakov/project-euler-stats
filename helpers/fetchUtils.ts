@@ -17,7 +17,7 @@ export async function fetchWithCookies(url: string, cookies: string): Promise<st
     });
 
     if (response.status !== 200) {
-        throw new Error(`HTTP error! GET ${url} status: ${response.status}. Please refresh cookies!`);
+        throw new Error(`HTTP error! GET ${url} status: ${response.status}. Please check your cookies and try again.`);
     }
 
     return response.text;

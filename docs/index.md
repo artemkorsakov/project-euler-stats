@@ -1,6 +1,6 @@
 # Project Euler Stats
 
-Welcome to the official documentation for the **Project Euler Stats** plugin for Obsidian!
+Welcome to the docs for the Project Euler Stats plugin for Obsidian!
 
 This plugin allows you to seamlessly integrate and display [Project Euler](https://projecteuler.net/)
 profile statistics directly within your Obsidian notes.
@@ -46,7 +46,7 @@ tasks, awards, and friends' rankings.
 	- Enter your `SessionId` and `Keep-Alive` cookie values in the provided fields.
 	- Save the settings.
 
-> See below section "How to remove cookies?"
+> See below section "How to extract cookies?"
 
 ---
 
@@ -77,6 +77,8 @@ This section displays your account information, including:
 - **Level**: Your current level in Project Euler.
 - **Solved**: The number of problems you have solved.
 
+<img src="images/profile.png" alt="profile" width="500" />
+
 ### Progress
 
 This section provides an overview of your progress:
@@ -84,26 +86,67 @@ This section provides an overview of your progress:
 - **Progress**: Shows how many problems you have solved out of the total available, along with the percentage.
 - **Ranking**: Displays your current ranking in various categories, such as Eulerians, by location, and by language.
 
+<img src="images/progress.png" alt="progress" width="500" />
+
 ### Tasks
 
 Here, you can see your current tasks and how many problems you need to solve to reach the next level or ranking.
 
+<img src="images/tasks.png" alt="tasks" width="500" />
+
 ### Location progress
+
+This section provides an overview of your ranking in the **Location rating** on Project Euler. 
+Currently, this account is **not in the Top 100**, with **118 problems solved**. 
+The table below breaks down the number of problems required to reach higher ranks, 
+such as Top 100, Top 50, Top 25, Top 10, Top 5, and Top 1, 
+along with the number of problems remaining to achieve each milestone.
+
+This section helps you track your progress and set goals for climbing the ranks in the Location leaderboard.
+
+<img src="images/location.png" alt="location" width="500" />
 
 ### Language progress
 
+This section highlights your ranking in the **Language rating** on Project Euler.
+This account is currently in **82nd place**, with **118 problems solved**. 
+The table outlines the number of problems needed to advance to higher ranks, 
+such as Top 50, Top 25, Top 10, Top 5, and Top 1, 
+along with the remaining problems required for each milestone.
+
+This section helps you track your progress and set goals for climbing the ranks in the Language leaderboard.
+
+<img src="images/language.png" alt="language" width="500" />
+
 ### Level progress
+
+This section provides an overview of your **level progression** on Project Euler. 
+It displays your current level, the number of problems you've solved, 
+and how close you are to reaching the next levels. 
+Additionally, it shows how many members have achieved each level, 
+giving you a sense of your standing within the community.
+
+This section is designed to help you stay motivated and focused on your journey through Project Euler's levels.
+Keep solving problems to climb higher and join the ranks of the top members!
+
+<img src="images/level.png" alt="level" width="500" />
 
 ### Awards
 
-This section lists the awards you have yet to complete, including:
+This section provides an overview of the **awards** you can earn on Project Euler. 
+Awards are divided into three categories: **Problem Solving Awards**, **Contributor Awards**, and **Forum Based Awards**. 
+Each award has a description, the number of members who have earned it, and a progress bar to track your progress.
 
-- **Problem Solving Awards**: Awards related to solving problems.
-- **Contributor Awards**: Awards for contributing to the Project Euler community.
+This section helps you stay motivated by showcasing your achievements and highlighting areas for improvement. 
+Keep solving problems, contributing, and engaging with the community to unlock more awards!
+
+<img src="images/awards.png" alt="awards" width="500" />
 
 ### Friends
 
 This section shows a leaderboard of your friends, including their ranks, usernames, solved problems, levels, and awards.
+
+<img src="images/friends.png" alt="friends" width="500" />
 
 ---
 
@@ -162,9 +205,9 @@ This will return a string of all cookies for the current domain.
 
 ## Troubleshooting
 
-- **No Data Displayed**:
+- **HTTP error!**:
 	- Ensure your `SessionId` and `Keep-Alive` cookie values is correctly configured in the plugin settings.
-	- Check your internet connection, as the plugin fetches data from the Project Euler website.
+	- Update your `SessionId` and `Keep-Alive` cookie values.
 
 ---
 

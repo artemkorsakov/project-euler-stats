@@ -45,7 +45,7 @@ export async function fetchProgress(cookies: string): Promise<string> {
 
         return generateHTML(accountData, progressData, euleriansPlace, locationUrl, languageUrl, locationRating, languageRating, levelDataArray, awardsData, friends);
     } catch (error) {
-        return `<div>Error fetching progress: ${error.message}.</div>`;
+        return `<div>Error fetching progress: ${error.message}. Please check your cookies and try again.</div>`;
     }
 }
 

@@ -65,12 +65,26 @@ To display your Project Euler progress, use the following code block in your Obs
 
 This will generate a document with your Project Euler statistics, including your profile, progress, tasks, awards, and more.
 
+### Example
+
+<img src="docs/images/profile.png" alt="profile" width="500" />
+<br>
+<img src="docs/images/progress.png" alt="progress" width="500" />
+<br>
+<img src="docs/images/tasks.png" alt="tasks" width="500" />
+
 For more detailed information, please refer to [the documentation](https://artemkorsakov.github.io/project-euler-obsidian-plugin/).
 
 ### Requirements:
 
 - Obsidian version 0.15.0 or higher.
 - A Project Euler account.
+
+## Troubleshooting
+
+- **HTTP error!**:
+	- Ensure your `SessionId` and `Keep-Alive` cookie values is correctly configured in the plugin settings.
+	- Update your `SessionId` and `Keep-Alive` cookie values.
 
 ### License:
 
