@@ -64,7 +64,7 @@ This will generate a document with your Project Euler statistics, including your
 
 ---
 
-## Sections Explained
+## Sections
 
 ### Profile
 
@@ -214,11 +214,6 @@ This will return a string of all cookies for the current domain.
 ## Support
 
 For issues or feature requests, please open an issue on the [GitHub repository](https://github.com/artemkorsakov/project-euler-obsidian-plugin).
-
-## Conclusion
-
-**Project Euler Stats** is a powerful tool for tracking your progress and staying motivated in solving mathematical problems.
-By using the simple command `euler-stats`, you can easily generate a comprehensive report of your achievements.
 
 ---
 
