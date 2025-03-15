@@ -6,6 +6,5 @@
 	"description": "Plugin for getting statistics from ProjectEuler.",
 	"author": "Artem Korsakov",
 	"authorUrl": "https://github.com/artemkorsakov",
-	"fundingUrl": "https://github.com/artemkorsakov",
 	"isDesktopOnly": false
 }
