@@ -39,10 +39,10 @@ export function parseAccountData(html: string): AccountData {
     const parser = new DOMParser();
     const doc = parser.parseFromString(html, 'text/html');
 
-    const account = doc.querySelector('input[name="profile_username"]')?.value || '';
-    const alias = doc.querySelector('input[name="profile_alias"]')?.value || '';
-    const location = doc.querySelector('select[name="profile_location"]')?.value || '';
-    const language = doc.querySelector('select[name="profile_language"]')?.value || '';
+    const account = (doc.querySelector('input[name="profile_username"]') as HTMLInputElement)?.value || '';
+    const alias = (doc.querySelector('input[name="profile_alias"]') as HTMLInputElement)?.value || '';
+    const location = (doc.querySelector('select[name="profile_location"]') as HTMLSelectElement)?.value || '';
+    const language = (doc.querySelector('select[name="profile_language"]') as HTMLSelectElement)?.value || '';
 
     return new AccountData(account, alias, location, language);
 }
@@ -74,13 +74,27 @@ export function parseRatingData(html: string): RatingData {
     const parser = new DOMParser();
     const doc = parser.parseFromString(html, 'text/html');
 
-    const place = stringToNumber(doc.querySelector('#id_current > td.rank_column')?.textContent.trim() || '999999');
-    const top100 = stringToNumber(doc.querySelector('#main_table > tbody > tr:nth-of-type(101) > .solved_column')?.textContent);
-    const top50 = stringToNumber(doc.querySelector('#main_table > tbody > tr:nth-of-type(51) > .solved_column')?.textContent);
-    const top25 = stringToNumber(doc.querySelector('#main_table > tbody > tr:nth-of-type(26) > .solved_column')?.textContent);
-    const top10 = stringToNumber(doc.querySelector('#main_table > tbody > tr:nth-of-type(11) > .solved_column')?.textContent);
-    const top5 = stringToNumber(doc.querySelector('#main_table > tbody > tr:nth-of-type(6) > .solved_column')?.textContent);
-    const top1 = stringToNumber(doc.querySelector('#main_table > tbody > tr:nth-of-type(2) > .solved_column')?.textContent);
+    const place = stringToNumber(
+        doc.querySelector('#id_current > td.rank_column')?.textContent?.trim() || '999999'
+    );
+    const top100 = stringToNumber(
+		doc.querySelector('#main_table > tbody > tr:nth-of-type(101) > .solved_column')?.textContent?.trim() || '999999'
+	);
+    const top50 = stringToNumber(
+		doc.querySelector('#main_table > tbody > tr:nth-of-type(51) > .solved_column')?.textContent?.trim() || '999999'
+		);
+    const top25 = stringToNumber(
+		doc.querySelector('#main_table > tbody > tr:nth-of-type(26) > .solved_column')?.textContent?.trim() || '999999'
+		);
+    const top10 = stringToNumber(
+		doc.querySelector('#main_table > tbody > tr:nth-of-type(11) > .solved_column')?.textContent?.trim() || '999999'
+		);
+    const top5 = stringToNumber(
+		doc.querySelector('#main_table > tbody > tr:nth-of-type(6) > .solved_column')?.textContent?.trim() || '999999'
+		);
+    const top1 = stringToNumber(
+		doc.querySelector('#main_table > tbody > tr:nth-of-type(2) > .solved_column')?.textContent?.trim() || '999999'
+		);
 
     return new RatingData(place, top100, top50, top25, top10, top5, top1);
 }
@@ -94,7 +108,7 @@ export function parseEuleriansData(html: string): string {
     const parser = new DOMParser();
     const doc = parser.parseFromString(html, 'text/html');
 
-    return doc.querySelector('#id_current > td.rank_column')?.textContent.trim() || 'You are not in Eulerians\' rating';
+    return doc.querySelector('#id_current > td.rank_column')?.textContent?.trim() || 'You are not in Eulerians\' rating';
 }
 
 export function parseLevelData(html: string): LevelData[] {
@@ -110,8 +124,8 @@ export function parseLevelData(html: string): LevelData[] {
         const membersElement = tileBox.querySelector('.small_notice');
 
         return new LevelData(
-            levelElement?.textContent.trim() ?? '',
-            membersElement?.textContent.trim() ?? ''
+            levelElement?.textContent?.trim() ?? '',
+            membersElement?.textContent?.trim() ?? ''
         );
     });
 }
@@ -125,7 +139,7 @@ function calculatePercentage(input: string): number {
         const total = parseInt(match[2], 10);
 
         if (total > 0) {
-            return ((solved / total) * 100).toFixed(2);
+            return parseFloat(((solved / total) * 100).toFixed(2));
         }
     }
 
@@ -139,7 +153,7 @@ export function parseAwardsData(myAwardsHtml: string, awardsHtml: string): Award
 
     const myAwardsBlockElements = myAwardsDoc.querySelectorAll('div#awards_section > div');
     const awardsBlockElements = awardsDoc.querySelectorAll('div#tile_grid > div.tile_box');
-    const membersTextArray = Array.from(awardsBlockElements).map(el => el.outerText.trim());
+    const membersTextArray = Array.from(awardsBlockElements).map(el => (el as HTMLElement).outerText.trim());
 
     const awardBlocks: AwardBlockData[] = Array.from(myAwardsBlockElements).map(myAwardsBlockElement => {
         const name = myAwardsBlockElement.querySelector('h3')?.textContent || '';
