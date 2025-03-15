@@ -20,6 +20,7 @@ import {
 import {
     AccountData,
     AwardBlockData,
+    FriendData,
     ProgressData,
     RatingData,
     LevelData

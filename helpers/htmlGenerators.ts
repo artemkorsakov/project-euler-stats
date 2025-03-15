@@ -242,24 +242,27 @@ export function generateAwardsTableHTML(awardsData: AwardBlockData[]): string {
         const length = awards.length;
 
         // Подсчитываем завершенные и создаем строки таблицы за один проход
-        const { completed, rows } = awards.reduce((acc, { award, link, description, isCompleted, progress, percentage, members }) => {
-            if (isCompleted) {
-                acc.completed++;
-            } else {
-				const progressBar = createProgressBar(percentage);
+        const { completed, rows } = awards.reduce<{ completed: number; rows: string[] }>(
+            (acc, { award, link, description, isCompleted, progress, percentage, members }) => {
+                if (isCompleted) {
+                    acc.completed++;
+                } else {
+                    const progressBar = createProgressBar(percentage);
 
-                acc.rows.push(`
-                    <tr>
-                        <td><a href="${link}">${award}</a></td>
-                        <td>${description}</td>
-                        <td>${members}</td>
-                        <td>${progress}</td>
-                        <td>${progressBar}</td>
-                    </tr>
-                `);
-            }
-            return acc;
-        }, { completed: 0, rows: [] });
+                    acc.rows.push(`
+                        <tr>
+                            <td><a href="${link}">${award}</a></td>
+                            <td>${description}</td>
+                            <td>${members}</td>
+                            <td>${progress}</td>
+                            <td>${progressBar}</td>
+                        </tr>
+                    `);
+                }
+                return acc;
+            },
+            { completed: 0, rows: [] } // Начальное значение аккумулятора
+        );
 
         return `
             <h3>${awardData.name}</h3>
