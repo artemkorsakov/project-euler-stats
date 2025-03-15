@@ -213,7 +213,7 @@ This will return a string of all cookies for the current domain.
 
 ## Support
 
-For issues or feature requests, please open an issue on the [GitHub repository](https://github.com/artemkorsakov/project-euler-obsidian-plugin).
+For issues or feature requests, please open an issue on the [GitHub repository](https://github.com/artemkorsakov/project-euler-stats).
 
 ---
 

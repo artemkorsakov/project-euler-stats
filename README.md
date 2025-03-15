@@ -73,7 +73,7 @@ This will generate a document with your Project Euler statistics, including your
 <br>
 <img src="docs/images/tasks.png" alt="tasks" width="500" />
 
-For more detailed information, please refer to [the documentation](https://artemkorsakov.github.io/project-euler-obsidian-plugin/).
+For more detailed information, please refer to [the documentation](https://artemkorsakov.github.io/project-euler-stats/).
 
 ### Requirements:
 
