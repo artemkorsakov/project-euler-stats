@@ -25,28 +25,55 @@ import {
     LevelData
 } from './types';
 
-/**
- * The main function for fetching and displaying progress.
- * @param cookies - Cookies for authentication.
- * @returns The generated HTML string.
- */
-export async function fetchProgress(cookies: string): Promise<string> {
+const mainUrl = 'https://projecteuler.net/';
+const sessionIdName = 'PHPSESSID';
+const keepAliveName = 'keep_alive';
+
+export async function fetchProgress(session: string, keep_alive: string, retries: number = 1): Promise<string> {
+	const cookies = `${sessionIdName}=${session}; ${keepAliveName}=${keep_alive}`;
+	console.log(`Fetching progress with cookies: ${cookies}`);
+
     try {
-        const accountData = await fetchData('https://projecteuler.net/account', parseAccountData, cookies);
-        const progressData = await fetchData('https://projecteuler.net/progress', parseProgressData, cookies);
-        const euleriansPlace = await fetchData('https://projecteuler.net/eulerians', parseEuleriansData, cookies);
-        const levelDataArray = await fetchData('https://projecteuler.net/levels', parseLevelData, cookies);
-        const friends = await fetchData('https://projecteuler.net/friends', parseFriends, cookies);
-
-        const locationUrl = `https://projecteuler.net/location=${accountData.location}`;
-        const languageUrl = `https://projecteuler.net/language=${accountData.language}`;
-        const { locationRating, languageRating } = await fetchRatings(locationUrl, languageUrl, cookies);
-        const awardsData = await fetchAwardsData(cookies);
-
-        return generateHTML(accountData, progressData, euleriansPlace, locationUrl, languageUrl, locationRating, languageRating, levelDataArray, awardsData, friends);
+        return await tryToFetchProgress(cookies);
     } catch (error) {
-        return `<div>Error fetching progress: ${error.message}. Please check your cookies and try again.</div>`;
+        console.error('Error fetching progress:', error);
+
+        return `<div>Error fetching progress. Please update your cookies in the settings and try again.</div>`;
     }
+}
+
+async function tryToFetchProgress(cookies: string): Promise<string> {
+    const [
+        accountData,
+        progressData,
+        euleriansPlace,
+        levelDataArray,
+        friends,
+    ] = await Promise.all([
+        fetchData(`${mainUrl}account`, parseAccountData, cookies),
+        fetchData(`${mainUrl}progress`, parseProgressData, cookies),
+        fetchData(`${mainUrl}eulerians`, parseEuleriansData, cookies),
+        fetchData(`${mainUrl}levels`, parseLevelData, cookies),
+        fetchData(`${mainUrl}friends`, parseFriends, cookies),
+    ]);
+
+    const locationUrl = `${mainUrl}location=${accountData.location}`;
+    const languageUrl = `${mainUrl}language=${accountData.language}`;
+    const { locationRating, languageRating } = await fetchRatings(locationUrl, languageUrl, cookies);
+    const awardsData = await fetchAwardsData(cookies);
+
+    return generateHTML(
+        accountData,
+        progressData,
+        euleriansPlace,
+        locationUrl,
+        languageUrl,
+        locationRating,
+        languageRating,
+        levelDataArray,
+        awardsData,
+        friends
+    );
 }
 
 async function fetchData<T>(url: string, parser: (html: string) => T, cookies: string): Promise<T> {

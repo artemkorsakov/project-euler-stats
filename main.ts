@@ -18,10 +18,9 @@ export default class ProjectEulerStatsPlugin extends Plugin {
 
         const session = this.settings.session_id;
         const keep_alive = this.settings.keep_alive;
-        const cookies = 'PHPSESSID=' + session + '; keep_alive=' + keep_alive;
 
 		this.registerMarkdownCodeBlockProcessor('euler-stats', async (source, el, ctx) => {
-            const stats = await fetchProgress(cookies);
+            const stats = await fetchProgress(session, keep_alive);
 
             const container = el.createEl('div');
             container.innerHTML = stats;
