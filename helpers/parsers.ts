@@ -115,10 +115,8 @@ export function parseLevelData(html: string): LevelData[] {
     const parser = new DOMParser();
     const doc = parser.parseFromString(html, 'text/html');
 
-    // Находим все элементы, соответствующие селектору
     const tileBoxes = doc.querySelectorAll('#tile_grid > .tile_box');
 
-    // Используем map для создания массива LevelData
     return Array.from(tileBoxes).map(tileBox => {
         const levelElement = tileBox.querySelector('a');
         const membersElement = tileBox.querySelector('.small_notice');

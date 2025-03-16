@@ -66,6 +66,14 @@ export class AwardBlockData {
         public name: string,
         public awards: AwardData[]
     ) {}
+
+    /**
+     * Calculates the number of completed awards in this block.
+     * @returns The number of completed awards.
+     */
+    getCompletedCount(): number {
+        return this.awards.filter(award => award.isCompleted).length;
+    }
 }
 
 /**

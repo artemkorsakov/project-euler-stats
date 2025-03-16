@@ -8,15 +8,12 @@ import {
     parseLevelData,
     parseFriends
 } from './parsers';
-import {
-    generateProfileHTML,
-    generateImageHTML,
-    generateProgressTableHTML,
-    generateRatingTableHTML,
-    generateLevelsTableHTML,
-    generateAwardsTableHTML,
-    generateFriendsHTML
-} from './htmlGenerators';
+import { generateProfileHTML, generateImageHTML } from './profileBlock';
+import { generateProgressTableHTML } from './progressBlock';
+import { generateRatingTableHTML } from './ratingBlock';
+import { generateLevelsTableHTML } from './levelsBlock';
+import { generateAwardsTableHTML } from './awardsBlock';
+import { generateFriendsHTML } from './friendsBlock';
 import {
     AccountData,
     AwardBlockData,
@@ -30,20 +27,28 @@ const mainUrl = 'https://projecteuler.net/';
 const sessionIdName = 'PHPSESSID';
 const keepAliveName = 'keep_alive';
 
-export async function fetchProgress(session: string, keep_alive: string, retries: number = 1): Promise<string> {
-	const cookies = `${sessionIdName}=${session}; ${keepAliveName}=${keep_alive}`;
-	console.log(`Fetching progress with cookies: ${cookies}`);
+/**
+ * Fetches progress data and returns it as an HTMLElement.
+ * @param session - The session cookie value.
+ * @param keep_alive - The keep-alive cookie value.
+ * @param retries - The number of retries in case of failure.
+ * @returns A Promise that resolves to an HTMLElement.
+ */
+export async function fetchProgress(session: string, keep_alive: string): Promise<HTMLElement> {
+    const cookies = `${sessionIdName}=${session}; ${keepAliveName}=${keep_alive}`;
 
     try {
         return await tryToFetchProgress(cookies);
     } catch (error) {
         console.error('Error fetching progress:', error);
 
-        return `<div>Error fetching progress. Please update your cookies in the settings and try again.</div>`;
+        const errorContainer = document.createElement('div');
+        errorContainer.textContent = 'Error fetching progress. Please update your cookies in the settings and try again.';
+        return errorContainer;
     }
 }
 
-async function tryToFetchProgress(cookies: string): Promise<string> {
+async function tryToFetchProgress(cookies: string): Promise<HTMLElement> {
     const [
         accountData,
         progressData,
@@ -104,25 +109,43 @@ async function fetchAwardsData(cookies: string): Promise<AwardBlockData[]> {
     return parseAwardsData(myAwardsHtml, awardsHtml);
 }
 
-function generateHTML(accountData: AccountData, progressData: ProgressData, euleriansPlace: string, locationUrl: string, languageUrl: string, locationRating: RatingData, languageRating: RatingData, levelDataArray: LevelData[], awardsData: AwardBlockData[], friends: FriendData[]): string {
-    const profileHTML = generateProfileHTML(accountData, progressData);
-    console.log("Successfully generated profile HTML.");
-    const imageHTML = generateImageHTML(accountData.account);
-    console.log("Successfully generated image HTML.");
-    const progressHTML = generateProgressTableHTML(accountData, progressData, locationUrl, languageUrl, euleriansPlace, locationRating, languageRating, awardsData);
-    console.log("Successfully generated progress HTML.");
-    const locationTitle = `Progress in <a href="${locationUrl}">the ${accountData.location}'s rating</a>`
-    const locationRatingHTML = generateRatingTableHTML(locationTitle, progressData.solved, locationRating);
-    console.log("Successfully generated location rating HTML.");
-    const languageTitle = `Progress in <a href="${languageUrl}">the ${accountData.language}'s rating</a>`
-    const languageRatingHTML = generateRatingTableHTML(languageTitle, progressData.solved, languageRating);
-    console.log("Successfully generated language rating HTML.");
-    const levelsHTML = generateLevelsTableHTML(progressData, levelDataArray);
-    console.log("Successfully generated levels HTML.");
-    const awardsHTML = generateAwardsTableHTML(awardsData);
-    console.log("Successfully generated awards HTML.");
-    const friendsHTML = generateFriendsHTML(friends, accountData);
-    console.log("Successfully generated friends HTML.");
+function generateHTML(
+    accountData: AccountData,
+    progressData: ProgressData,
+    euleriansPlace: string,
+    locationUrl: string,
+    languageUrl: string,
+    locationRating: RatingData,
+    languageRating: RatingData,
+    levelDataArray: LevelData[],
+    awardsData: AwardBlockData[],
+    friends: FriendData[]
+): HTMLElement {
+    const container = document.createElement('div');
 
-    return profileHTML + imageHTML + progressHTML + locationRatingHTML + languageRatingHTML + levelsHTML + awardsHTML + friendsHTML;
+    const profileElement = generateProfileHTML(accountData, progressData);
+    container.appendChild(profileElement);
+
+    const imageElement = generateImageHTML(accountData.account);
+    container.appendChild(imageElement);
+
+    const progressElement = generateProgressTableHTML(accountData, progressData, locationUrl, languageUrl, euleriansPlace, locationRating, languageRating, awardsData);
+    container.appendChild(progressElement);
+
+    const locationRatingElement = generateRatingTableHTML(locationUrl, accountData.location, progressData.solved, locationRating);
+    container.appendChild(locationRatingElement);
+
+    const languageRatingElement = generateRatingTableHTML(languageUrl, accountData.language, progressData.solved, languageRating);
+    container.appendChild(languageRatingElement);
+
+    const levelsElement = generateLevelsTableHTML(progressData, levelDataArray);
+    container.appendChild(levelsElement);
+
+    const awardsElement = generateAwardsTableHTML(awardsData);
+    container.appendChild(awardsElement);
+
+    const friendsElement = generateFriendsHTML(friends, accountData);
+    container.appendChild(friendsElement);
+
+    return container;
 }

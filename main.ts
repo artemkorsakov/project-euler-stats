@@ -9,20 +9,13 @@ export default class ProjectEulerStatsPlugin extends Plugin {
 
 		this.addSettingTab(new ProjectEulerStatsSettingTab(this.app, this));
 
-		this.registerDomEvent(document, 'click', (evt: MouseEvent) => {
-			console.log('click', evt);
-		});
-
-		this.registerInterval(window.setInterval(() => console.log('setInterval'), 5 * 60 * 1000));
-
         const session = this.settings.session_id;
         const keep_alive = this.settings.keep_alive;
 
-		this.registerMarkdownCodeBlockProcessor('euler-stats', async (source, el, ctx) => {
+	    this.registerMarkdownCodeBlockProcessor('euler-stats', async (source, el, ctx) => {
             const stats = await fetchProgress(session, keep_alive);
-
             const container = el.createEl('div');
-            container.innerHTML = stats;
+            container.appendChild(stats);
         });
 	}
 
