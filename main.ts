@@ -71,9 +71,9 @@ export class ProjectEulerStatsSettingTab extends PluginSettingTab {
 
 		new Setting(containerEl)
 			.setName('Session Id')
-			.setDesc('Cookies Session Id')
+			.setDesc('Cookies PHPSESSID')
 			.addText(text => text
-				.setPlaceholder('Enter session_id')
+				.setPlaceholder('Enter PHPSESSID')
 				.setValue(this.plugin.settings.session_id)
 				.onChange(async (value) => {
 					this.plugin.settings.session_id = value;
