@@ -290,7 +290,7 @@ If you encounter an HTTP error, follow these steps:
 
 	- Ensure that your `SessionId` and `Keep-Alive` cookie values are correctly configured in the plugin settings.
 	- To update these values:
-		1. Log in to the [Project Euler website][site].
+		1. Log in to the [Project Euler website][projecteuler].
 		2. Retrieve the latest `PHPSESSID` and `keep_alive` values from your browser's cookies.
 		3. Update these values in the plugin settings in Obsidian.
 
