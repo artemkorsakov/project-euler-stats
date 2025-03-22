@@ -8,6 +8,15 @@ export class AccountData {
         public location: string,
         public language: string
     ) {}
+
+    static fromObject(obj: any): AccountData {
+        return new AccountData(
+            obj.account,
+            obj.alias,
+            obj.location,
+            obj.language
+        );
+    }
 }
 
 /**
@@ -21,6 +30,16 @@ export class ProgressData {
         public progress: string,
         public toTheNext: string
     ) {}
+
+    static fromObject(obj: any): ProgressData {
+        return new ProgressData(
+            obj.level,
+            obj.solved,
+            obj.percentage,
+            obj.progress,
+            obj.toTheNext
+        );
+    }
 }
 
 /**
@@ -36,6 +55,18 @@ export class RatingData {
         public top5: number,
         public top1: number
     ) {}
+
+    static fromObject(obj: any): RatingData {
+        return new RatingData(
+            obj.place,
+            obj.top100,
+            obj.top50,
+            obj.top25,
+            obj.top10,
+            obj.top5,
+            obj.top1
+        );
+    }
 }
 
 /**
@@ -51,6 +82,13 @@ export class LevelData {
         public level: string,
         public members: string
     ) {}
+
+    static fromObject(obj: any): LevelData {
+        return new LevelData(
+            obj.level,
+            obj.members
+        );
+    }
 }
 
 /**
@@ -66,6 +104,13 @@ export class AwardBlockData {
         public name: string,
         public awards: AwardData[]
     ) {}
+
+    static fromObject(obj: any): AwardBlockData {
+        return new AwardBlockData(
+            obj.name,
+            obj.awards.map((award: any) => AwardData.fromObject(award))
+        );
+    }
 
     /**
      * Calculates the number of completed awards in this block.
@@ -99,6 +144,18 @@ export class AwardData {
         public percentage: number,
         public members: string
     ) {}
+
+    static fromObject(obj: any): AwardData {
+        return new AwardData(
+            obj.award,
+            obj.link,
+            obj.description,
+            obj.isCompleted,
+            obj.progress,
+            obj.percentage,
+            obj.members
+        );
+    }
 }
 
 export class FriendData {
@@ -109,6 +166,46 @@ export class FriendData {
 		public level: number,
 		public awards: number
 	) {}
+
+    static fromObject(obj: any): FriendData {
+        return new FriendData(
+            obj.rank,
+            obj.username,
+            obj.solved,
+            obj.level,
+            obj.awards
+        );
+    }
+}
+
+export class CacheData {
+	constructor(
+		public accountData: AccountData,
+        public progressData: ProgressData,
+        public euleriansPlace: string,
+        public locationUrl: string,
+        public languageUrl: string,
+        public locationRating: RatingData,
+        public languageRating: RatingData,
+        public levelDataArray: LevelData[],
+        public awardsData: AwardBlockData[],
+        public friends: FriendData[]
+	) {}
+
+    static fromObject(obj: any): CacheData {
+        return new CacheData(
+            AccountData.fromObject(obj.accountData),
+            ProgressData.fromObject(obj.progressData),
+            obj.euleriansPlace,
+            obj.locationUrl,
+            obj.languageUrl,
+            RatingData.fromObject(obj.locationRating),
+            RatingData.fromObject(obj.languageRating),
+            obj.levelDataArray.map((level: any) => LevelData.fromObject(level)),
+            obj.awardsData.map((awardBlock: any) => AwardBlockData.fromObject(awardBlock)),
+            obj.friends.map((friend: any) => FriendData.fromObject(friend))
+        );
+    }
 }
 
 export class Source {

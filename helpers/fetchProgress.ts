@@ -1,4 +1,5 @@
 import { fetchWithCookies } from './fetchUtils';
+import { saveDataToFile, loadDataFromFile, checkFileExists, ensureFolderExists } from './fileUtils';
 import {
     parseAccountData,
     parseAwardsData,
@@ -17,6 +18,7 @@ import { generateFriendsHTML } from './friendsBlock';
 import {
     AccountData,
     AwardBlockData,
+    CacheData,
     FriendData,
     LevelData,
     PersonalTask,
@@ -33,24 +35,58 @@ const keepAliveName = 'keep_alive';
  * Fetches progress data and returns it as an HTMLElement.
  * @param session - The session cookie value.
  * @param keep_alive - The keep-alive cookie value.
- * @param retries - The number of retries in case of failure.
+ * @param source - The source data for generating HTML.
  * @returns A Promise that resolves to an HTMLElement.
  */
 export async function fetchProgress(session: string, keep_alive: string, source: Source): Promise<HTMLElement> {
-    const cookies = `${sessionIdName}=${session}; ${keepAliveName}=${keep_alive}`;
+    // Define the path to the plugin's cache folder and ensure it exists
+    const folderPath = getPluginFolderPath();
+    await ensureFolderExists(folderPath);
+    const filePath = `${folderPath}/cache.json`;
+
+    // Attempt to load cached data from the file
+    const savedData = await loadDataFromFile(filePath);
+
+    // If cached data exists, generate and return HTML from it
+    if (savedData) {
+        return generateHTML(savedData, source);
+    }
+
+    // If no cached data is available, try to fetch fresh data from the server
+    const fetchedData = await tryToFetchAndSaveProgress(session, keep_alive, filePath);
+
+    // If fetching fresh data is successful, generate and return HTML from it
+    if (fetchedData) {
+        return generateHTML(fetchedData, source);
+    }
+
+    // If neither cached nor fresh data is available, create an error message
+    const errorContainer = document.createElement('div');
+    errorContainer.textContent = 'Error fetching progress. Please update your cookies in the settings and try again.';
+    return errorContainer;
+}
+
+function getPluginFolderPath(): string {
+    return `${this.app.vault.configDir}/plugins/project-euler-stats/cache`;
+}
+
+async function tryToFetchAndSaveProgress(session: string, keep_alive: string, filePath: string): Promise<CacheData | null> {
+	const cookies = `${sessionIdName}=${session}; ${keepAliveName}=${keep_alive}`;
 
     try {
-        return await tryToFetchProgress(cookies, source);
+        const cacheData = await tryToFetchProgress(cookies);
+
+        console.log('Я пошел фетчить прогресс, вот данные:', cacheData);
+
+        await saveDataToFile(filePath, cacheData);
+        return cacheData;
     } catch (error) {
         console.error('Error fetching progress:', error);
-
-        const errorContainer = document.createElement('div');
-        errorContainer.textContent = 'Error fetching progress. Please update your cookies in the settings and try again.';
-        return errorContainer;
+        return null;
     }
 }
 
-async function tryToFetchProgress(cookies: string, source: Source): Promise<HTMLElement> {
+async function tryToFetchProgress(cookies: string): Promise<CacheData> {
     const [
         accountData,
         progressData,
@@ -70,19 +106,7 @@ async function tryToFetchProgress(cookies: string, source: Source): Promise<HTML
     const { locationRating, languageRating } = await fetchRatings(locationUrl, languageUrl, cookies);
     const awardsData = await fetchAwardsData(cookies);
 
-    return generateHTML(
-        accountData,
-        progressData,
-        euleriansPlace,
-        locationUrl,
-        languageUrl,
-        locationRating,
-        languageRating,
-        levelDataArray,
-        awardsData,
-        friends,
-        source
-    );
+    return new CacheData(accountData, progressData, euleriansPlace, locationUrl, languageUrl, locationRating, languageRating, levelDataArray, awardsData, friends);
 }
 
 async function fetchData<T>(url: string, parser: (html: string) => T, cookies: string): Promise<T> {
@@ -112,43 +136,31 @@ async function fetchAwardsData(cookies: string): Promise<AwardBlockData[]> {
     return parseAwardsData(myAwardsHtml, awardsHtml);
 }
 
-function generateHTML(
-    accountData: AccountData,
-    progressData: ProgressData,
-    euleriansPlace: string,
-    locationUrl: string,
-    languageUrl: string,
-    locationRating: RatingData,
-    languageRating: RatingData,
-    levelDataArray: LevelData[],
-    awardsData: AwardBlockData[],
-    friends: FriendData[],
-    source: Source
-): HTMLElement {
+function generateHTML(cache: CacheData, source: Source): HTMLElement {
     const container = document.createElement('div');
 
-    const profileElement = generateProfileHTML(accountData, progressData);
+    const profileElement = generateProfileHTML(cache.accountData, cache.progressData);
     container.appendChild(profileElement);
 
-    const imageElement = generateImageHTML(accountData.account);
+    const imageElement = generateImageHTML(cache.accountData.account);
     container.appendChild(imageElement);
 
-    const progressElement = generateProgressTableHTML(accountData, progressData, locationUrl, languageUrl, euleriansPlace, locationRating, languageRating, awardsData, source);
+    const progressElement = generateProgressTableHTML(cache, source);
     container.appendChild(progressElement);
 
-    const locationRatingElement = generateRatingTableHTML(locationUrl, accountData.location, progressData.solved, locationRating);
+    const locationRatingElement = generateRatingTableHTML(cache.locationUrl, cache.accountData.location, cache.progressData.solved, cache.locationRating);
     container.appendChild(locationRatingElement);
 
-    const languageRatingElement = generateRatingTableHTML(languageUrl, accountData.language, progressData.solved, languageRating);
+    const languageRatingElement = generateRatingTableHTML(cache.languageUrl, cache.accountData.language, cache.progressData.solved, cache.languageRating);
     container.appendChild(languageRatingElement);
 
-    const levelsElement = generateLevelsTableHTML(progressData, levelDataArray);
+    const levelsElement = generateLevelsTableHTML(cache.progressData, cache.levelDataArray);
     container.appendChild(levelsElement);
 
-    const awardsElement = generateAwardsTableHTML(awardsData);
+    const awardsElement = generateAwardsTableHTML(cache.awardsData);
     container.appendChild(awardsElement);
 
-    const friendsElement = generateFriendsHTML(friends, accountData);
+    const friendsElement = generateFriendsHTML(cache.friends, cache.accountData);
     container.appendChild(friendsElement);
 
     return container;

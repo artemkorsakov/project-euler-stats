@@ -1,0 +1,656 @@
+{
+  "accountData": {
+    "account": "Artem_Korsakov",
+    "alias": "Artem Korsakov",
+    "location": "Russia",
+    "language": "Scala"
+  },
+  "progressData": {
+    "level": "Level 4",
+    "solved": 118,
+    "percentage": 12.6,
+    "progress": "Solved 118 out of 936 problems (12.6%)",
+    "toTheNext": "7 problems away from level 5"
+  },
+  "euleriansPlace": "You are not in Eulerians' rating",
+  "locationUrl": "https://projecteuler.net/location=Russia",
+  "languageUrl": "https://projecteuler.net/language=Scala",
+  "locationRating": {
+    "place": 999999,
+    "top100": 204,
+    "top50": 287,
+    "top25": 387,
+    "top10": 527,
+    "top5": 810,
+    "top1": 900
+  },
+  "languageRating": {
+    "place": 82,
+    "top100": 108,
+    "top50": 140,
+    "top25": 177,
+    "top10": 250,
+    "top5": 374,
+    "top1": 786
+  },
+  "levelDataArray": [
+    {
+      "level": "Level 1",
+      "members": "71201 members"
+    },
+    {
+      "level": "Level 2",
+      "members": "32115 members"
+    },
+    {
+      "level": "Level 3",
+      "members": "12279 members"
+    },
+    {
+      "level": "Level 4",
+      "members": "6199 members"
+    },
+    {
+      "level": "Level 5",
+      "members": "3074 members"
+    },
+    {
+      "level": "Level 6",
+      "members": "1908 members"
+    },
+    {
+      "level": "Level 7",
+      "members": "1048 members"
+    },
+    {
+      "level": "Level 8",
+      "members": "769 members"
+    },
+    {
+      "level": "Level 9",
+      "members": "537 members"
+    },
+    {
+      "level": "Level 10",
+      "members": "381 members"
+    },
+    {
+      "level": "Level 11",
+      "members": "249 members"
+    },
+    {
+      "level": "Level 12",
+      "members": "199 members"
+    },
+    {
+      "level": "Level 13",
+      "members": "159 members"
+    },
+    {
+      "level": "Level 14",
+      "members": "126 members"
+    },
+    {
+      "level": "Level 15",
+      "members": "90 members"
+    },
+    {
+      "level": "Level 16",
+      "members": "91 members"
+    },
+    {
+      "level": "Level 17",
+      "members": "78 members"
+    },
+    {
+      "level": "Level 18",
+      "members": "59 members"
+    },
+    {
+      "level": "Level 19",
+      "members": "45 members"
+    },
+    {
+      "level": "Level 20",
+      "members": "39 members"
+    },
+    {
+      "level": "Level 21",
+      "members": "38 members"
+    },
+    {
+      "level": "Level 22",
+      "members": "29 members"
+    },
+    {
+      "level": "Level 23",
+      "members": "27 members"
+    },
+    {
+      "level": "Level 24",
+      "members": "28 members"
+    },
+    {
+      "level": "Level 25",
+      "members": "19 members"
+    },
+    {
+      "level": "Level 26",
+      "members": "15 members"
+    },
+    {
+      "level": "Level 27",
+      "members": "12 members"
+    },
+    {
+      "level": "Level 28",
+      "members": "13 members"
+    },
+    {
+      "level": "Level 29",
+      "members": "15 members"
+    },
+    {
+      "level": "Level 30",
+      "members": "14 members"
+    },
+    {
+      "level": "Level 31",
+      "members": "14 members"
+    },
+    {
+      "level": "Level 32",
+      "members": "9 members"
+    },
+    {
+      "level": "Level 33",
+      "members": "10 members"
+    },
+    {
+      "level": "Level 34",
+      "members": "11 members"
+    },
+    {
+      "level": "Level 35",
+      "members": "13 members"
+    },
+    {
+      "level": "Level 36",
+      "members": "43 members"
+    }
+  ],
+  "awardsData": [
+    {
+      "name": "Problem Solving Awards",
+      "awards": [
+        {
+          "award": "Baby Steps",
+          "link": "https://projecteuler.net/award=1",
+          "description": "Solve three problems",
+          "isCompleted": true,
+          "progress": "",
+          "percentage": 0,
+          "members": "615578 members"
+        },
+        {
+          "award": "The Journey Begins",
+          "link": "https://projecteuler.net/award=2",
+          "description": "Progress to Level 1 by solving twenty-five problems",
+          "isCompleted": true,
+          "progress": "",
+          "percentage": 0,
+          "members": "119573 members"
+        },
+        {
+          "award": "Decathlete",
+          "link": "https://projecteuler.net/award=3",
+          "description": "Solve ten consecutive problems",
+          "isCompleted": true,
+          "progress": "",
+          "percentage": 0,
+          "members": "267966 members"
+        },
+        {
+          "award": "Flawless Fifty",
+          "link": "https://projecteuler.net/award=4",
+          "description": "Solve fifty consecutive problems",
+          "isCompleted": true,
+          "progress": "",
+          "percentage": 0,
+          "members": "36441 members"
+        },
+        {
+          "award": "C for Commitment",
+          "link": "https://projecteuler.net/award=5",
+          "description": "Complete any grid",
+          "isCompleted": false,
+          "progress": "",
+          "percentage": 0,
+          "members": "6975 members"
+        },
+        {
+          "award": "CC for Continued Commitment",
+          "link": "https://projecteuler.net/award=6",
+          "description": "Complete any two grids",
+          "isCompleted": false,
+          "progress": "0 / 2",
+          "percentage": 0,
+          "members": "851 members"
+        },
+        {
+          "award": "D for Dedication",
+          "link": "https://projecteuler.net/award=7",
+          "description": "Complete any five grids",
+          "isCompleted": false,
+          "progress": "0 / 5",
+          "percentage": 0,
+          "members": "76 members"
+        },
+        {
+          "award": "Three Strikes!",
+          "link": "https://projecteuler.net/award=8",
+          "description": "Get the diagonals in any three grids",
+          "isCompleted": false,
+          "progress": "1 / 3",
+          "percentage": 33.33,
+          "members": "128 members"
+        },
+        {
+          "award": "Perfect Game",
+          "link": "https://projecteuler.net/award=9",
+          "description": "Get the diagonals in all possible grids",
+          "isCompleted": false,
+          "progress": "1 / 9",
+          "percentage": 11.11,
+          "members": "25 members"
+        },
+        {
+          "award": "As Easy As Pi",
+          "link": "https://projecteuler.net/award=11",
+          "description": "Solve problems 3, 14, 15, 92, 65, 35, 89, 79, 32, 38, and 46",
+          "isCompleted": true,
+          "progress": "",
+          "percentage": 0,
+          "members": "17963 members"
+        },
+        {
+          "award": "Unlucky Squares",
+          "link": "https://projecteuler.net/award=12",
+          "description": "Solve thirteen square numbered problems",
+          "isCompleted": false,
+          "progress": "11 / 13",
+          "percentage": 84.62,
+          "members": "4823 members"
+        },
+        {
+          "award": "Triangle Trophy",
+          "link": "https://projecteuler.net/award=13",
+          "description": "Solve all the triangle numbered problems below 100",
+          "isCompleted": true,
+          "progress": "",
+          "percentage": 0,
+          "members": "2088 members"
+        },
+        {
+          "award": "Square Triangle",
+          "link": "https://projecteuler.net/award=14",
+          "description": "Solve thirty-six triangle numbered problems",
+          "isCompleted": false,
+          "progress": "14 / 36",
+          "percentage": 38.89,
+          "members": "133 members"
+        },
+        {
+          "award": "Prime Obsession",
+          "link": "https://projecteuler.net/award=15",
+          "description": "Solve fifty prime numbered problems",
+          "isCompleted": false,
+          "progress": "27 / 50",
+          "percentage": 54,
+          "members": "2461 members"
+        },
+        {
+          "award": "Trinary Triumph",
+          "link": "https://projecteuler.net/award=16",
+          "description": "Solve problems 1, 3, 9, 27, 81, 243, and 729",
+          "isCompleted": false,
+          "progress": "6 / 7",
+          "percentage": 85.71,
+          "members": "203 members"
+        },
+        {
+          "award": "Fibonacci Fever",
+          "link": "https://projecteuler.net/award=17",
+          "description": "Solve thirteen Fibonacci numbered problems",
+          "isCompleted": false,
+          "progress": "10 / 13",
+          "percentage": 76.92,
+          "members": "2021 members"
+        },
+        {
+          "award": "Daring Dozen",
+          "link": "https://projecteuler.net/award=18",
+          "description": "Solve twelve problems with an ID containing three digits",
+          "isCompleted": true,
+          "progress": "",
+          "percentage": 0,
+          "members": "16821 members"
+        },
+        {
+          "award": "Lucky Luke",
+          "link": "https://projecteuler.net/award=19",
+          "description": "Solve fifty lucky numbered problems",
+          "isCompleted": false,
+          "progress": "24 / 50",
+          "percentage": 48,
+          "members": "1659 members"
+        },
+        {
+          "award": "Decimator",
+          "link": "https://projecteuler.net/award=21",
+          "description": "Solve one in every ten problems from problems 101 to 200",
+          "isCompleted": false,
+          "progress": "3 / 10",
+          "percentage": 30,
+          "members": "5281 members"
+        },
+        {
+          "award": "Trecenti Decimator",
+          "link": "https://projecteuler.net/award=22",
+          "description": "Solve one in every ten problems for the first 300 problems",
+          "isCompleted": false,
+          "progress": "15 / 30",
+          "percentage": 50,
+          "members": "2075 members"
+        },
+        {
+          "award": "Sicarius Decimator",
+          "link": "https://projecteuler.net/award=23",
+          "description": "I see a target. Good hunting, 47",
+          "isCompleted": false,
+          "progress": "20 / 47",
+          "percentage": 42.55,
+          "members": "1728 members"
+        },
+        {
+          "award": "Ultimus Decimator",
+          "link": "https://projecteuler.net/award=24",
+          "description": "Solve one in every ten problems in the archives",
+          "isCompleted": false,
+          "progress": "20 / 92",
+          "percentage": 21.74,
+          "members": "214 members"
+        },
+        {
+          "award": "One Percenter",
+          "link": "https://projecteuler.net/award=25",
+          "description": "Better than 99% = One badass problem solver",
+          "isCompleted": true,
+          "progress": "",
+          "percentage": 0,
+          "members": "10101 members"
+        },
+        {
+          "award": "High Flyer",
+          "link": "https://projecteuler.net/award=26",
+          "description": "Progress to the maximum level",
+          "isCompleted": false,
+          "progress": "4 / 36",
+          "percentage": 11.11,
+          "members": "69 members"
+        },
+        {
+          "award": "Perfection",
+          "link": "https://projecteuler.net/",
+          "description": "Solve every problem",
+          "isCompleted": false,
+          "progress": "118 / 936",
+          "percentage": 12.61,
+          "members": "0 members"
+        },
+        {
+          "award": "The Archivist",
+          "link": "https://projecteuler.net/award=28",
+          "description": "Solve half of the problems in the archives",
+          "isCompleted": false,
+          "progress": "118 / 463",
+          "percentage": 25.49,
+          "members": "558 members"
+        },
+        {
+          "award": "Master of Archives",
+          "link": "https://projecteuler.net/award=29",
+          "description": "Solve every problem in the archives",
+          "isCompleted": false,
+          "progress": "118 / 926",
+          "percentage": 12.74,
+          "members": "22 members"
+        },
+        {
+          "award": "On The Ball",
+          "link": "https://projecteuler.net/award=31",
+          "description": "Solve the most recent problem",
+          "isCompleted": false,
+          "progress": "",
+          "percentage": 0,
+          "members": "7068 members"
+        },
+        {
+          "award": "High Five",
+          "link": "https://projecteuler.net/award=32",
+          "description": "Solve the five most recent problems",
+          "isCompleted": false,
+          "progress": "0 / 5",
+          "percentage": 0,
+          "members": "1090 members"
+        },
+        {
+          "award": "Ten Out Of Ten",
+          "link": "https://projecteuler.net/award=33",
+          "description": "Solve the ten most recent problems",
+          "isCompleted": false,
+          "progress": "0 / 10",
+          "percentage": 0,
+          "members": "596 members"
+        },
+        {
+          "award": "State Of The Art",
+          "link": "https://projecteuler.net/award=34",
+          "description": "Solve the twenty-five most recent problems",
+          "isCompleted": false,
+          "progress": "0 / 25",
+          "percentage": 0,
+          "members": "293 members"
+        },
+        {
+          "award": "Unknown Conqueror",
+          "link": "https://projecteuler.net/award=35",
+          "description": "Five times lucky, five times smart",
+          "isCompleted": false,
+          "progress": "0 / 5",
+          "percentage": 0,
+          "members": "20 members"
+        },
+        {
+          "award": "One In A Hundred",
+          "link": "https://projecteuler.net/award=41",
+          "description": "Be among the first hundred to solve a problem",
+          "isCompleted": false,
+          "progress": "",
+          "percentage": 0,
+          "members": "5021 members"
+        },
+        {
+          "award": "Chart Topper",
+          "link": "https://projecteuler.net/award=42",
+          "description": "Be among the first ten to solve a problem",
+          "isCompleted": false,
+          "progress": "",
+          "percentage": 0,
+          "members": "671 members"
+        },
+        {
+          "award": "Gold Medal",
+          "link": "https://projecteuler.net/award=43",
+          "description": "The first to solve a problem",
+          "isCompleted": false,
+          "progress": "",
+          "percentage": 0,
+          "members": "133 members"
+        },
+        {
+          "award": "Tag Explorer",
+          "link": "https://projecteuler.net/award=45",
+          "description": "Solve at least one problem for one-hundred different tags",
+          "isCompleted": false,
+          "progress": "68 / 100",
+          "percentage": 68,
+          "members": "694 members"
+        },
+        {
+          "award": "Easy Prey",
+          "link": "https://projecteuler.net/award=51",
+          "description": "Solve the fifty easiest problems",
+          "isCompleted": false,
+          "progress": "49 / 50",
+          "percentage": 98,
+          "members": "65328 members"
+        },
+        {
+          "award": "Big Game Hunter",
+          "link": "https://projecteuler.net/award=52",
+          "description": "Solve twenty-five of the fifty hardest problems",
+          "isCompleted": false,
+          "progress": "0 / 25",
+          "percentage": 0,
+          "members": "138 members"
+        },
+        {
+          "award": "Difficulty Explorer",
+          "link": "https://projecteuler.net/award=53",
+          "description": "Solve at least one problem at ten different difficulty levels",
+          "isCompleted": false,
+          "progress": "9 / 10",
+          "percentage": 90,
+          "members": "8358 members"
+        },
+        {
+          "award": "Conquering Difficulties",
+          "link": "https://projecteuler.net/award=54",
+          "description": "Solve at least one problem at all of the difficulty levels",
+          "isCompleted": false,
+          "progress": "9 / 20",
+          "percentage": 45,
+          "members": "518 members"
+        },
+        {
+          "award": "Mount Euler",
+          "link": "https://projecteuler.net/award=55",
+          "description": "Mastering the mountain of difficulty",
+          "isCompleted": false,
+          "progress": "1 / 20",
+          "percentage": 5,
+          "members": "63 members"
+        },
+        {
+          "award": "The Centenarian",
+          "link": "https://projecteuler.net/award=59",
+          "description": "Solved a problem on one-hundred different days",
+          "isCompleted": false,
+          "progress": "31 / 100",
+          "percentage": 31,
+          "members": "647 members"
+        }
+      ]
+    },
+    {
+      "name": "Contributor Awards",
+      "awards": [
+        {
+          "award": "Bright Spark",
+          "link": "https://projecteuler.net/award=61",
+          "description": "Contributed to the development of a problem",
+          "isCompleted": false,
+          "progress": "",
+          "percentage": 0,
+          "members": "147 members"
+        },
+        {
+          "award": "Brainstormer",
+          "link": "https://projecteuler.net/award=62",
+          "description": "Contributed to the development of five or more problems",
+          "isCompleted": false,
+          "progress": "",
+          "percentage": 0,
+          "members": "52 members"
+        }
+      ]
+    },
+    {
+      "name": "Forum Based Awards",
+      "awards": [
+        {
+          "award": "Hello World!",
+          "link": "https://projecteuler.net/award=91",
+          "description": "Made your first permanent post",
+          "isCompleted": false,
+          "progress": "",
+          "percentage": 0,
+          "members": "5522 members"
+        },
+        {
+          "award": "Wise Words",
+          "link": "https://projecteuler.net/award=92",
+          "description": "Received five Kudos across all your permanent posts",
+          "isCompleted": false,
+          "progress": "0 / 5",
+          "percentage": 0,
+          "members": "1126 members"
+        },
+        {
+          "award": "Valued Expositor",
+          "link": "https://projecteuler.net/award=93",
+          "description": "Received twenty-five Kudos across all your permanent posts",
+          "isCompleted": false,
+          "progress": "0 / 25",
+          "percentage": 0,
+          "members": "411 members"
+        },
+        {
+          "award": "Esteemed Journalist",
+          "link": "https://projecteuler.net/award=94",
+          "description": "Received one-hundred Kudos across all your permanent posts",
+          "isCompleted": false,
+          "progress": "0 / 100",
+          "percentage": 0,
+          "members": "151 members"
+        },
+        {
+          "award": "The Guru",
+          "link": "https://projecteuler.net/award=95",
+          "description": "Received ten Kudos for a permanent post in a single problem thread",
+          "isCompleted": false,
+          "progress": "0 / 10",
+          "percentage": 0,
+          "members": "459 members"
+        }
+      ]
+    }
+  ],
+  "friends": [
+    {
+      "rank": "1",
+      "username": "fonkost",
+      "solved": 385,
+      "level": 15,
+      "awards": 21
+    },
+    {
+      "rank": "2",
+      "username": "Artem Korsakov",
+      "solved": 118,
+      "level": 4,
+      "awards": 8
+    }
+  ]
+}

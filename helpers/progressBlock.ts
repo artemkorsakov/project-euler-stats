@@ -1,4 +1,4 @@
-import { AccountData, AwardData, AwardBlockData, PersonalTask, ProgressData, RatingData, Source } from './types';
+import { AccountData, AwardData, AwardBlockData, CacheData, PersonalTask, ProgressData, RatingData, Source } from './types';
 import { createProgressBar, createSectionHeader } from './commonBlocks';
 
 interface Result {
@@ -206,39 +206,25 @@ function createTasksList(
 
 /**
  * Generates HTML for the progress table.
- * @param accountData - The account data.
- * @param progressData - The progress data.
- * @param locationUrl - The URL for the location rating.
- * @param languageUrl - The URL for the language rating.
- * @param euleriansPlace - The user's place in Eulerians' rating.
- * @param locationRating - The location rating data.
- * @param languageRating - The language rating data.
- * @param awardsData - The awards data.
+ * @param cache - The cache data.
  * @param source - The source data.
  * @returns The generated HTMLElement (progress table container).
  */
 export function generateProgressTableHTML(
-    accountData: AccountData,
-    progressData: ProgressData,
-    locationUrl: string,
-    languageUrl: string,
-    euleriansPlace: string,
-    locationRating: RatingData,
-    languageRating: RatingData,
-    awardsData: AwardBlockData[],
+    cache: CacheData,
     source: Source
 ): HTMLElement {
     const progressContainer = document.createElement('div');
     progressContainer.appendChild(createSectionHeader('Progress'));
-    progressContainer.appendChild(createProgressBar(progressData.percentage));
+    progressContainer.appendChild(createProgressBar(cache.progressData.percentage));
     progressContainer.appendChild(createProgressTable(
-		progressData,
-        euleriansPlace,
-        locationUrl,
-        languageUrl,
-        accountData,
-        locationRating,
-        languageRating
+		cache.progressData,
+        cache.euleriansPlace,
+        cache.locationUrl,
+        cache.languageUrl,
+        cache.accountData,
+        cache.locationRating,
+        cache.languageRating
     ));
 
     // Personal tasks section
@@ -252,11 +238,11 @@ export function generateProgressTableHTML(
     tasksHeader.textContent = 'Tasks';
     progressContainer.appendChild(tasksHeader);
     progressContainer.appendChild(createTasksList(
-        progressData,
-        accountData,
-        locationRating,
-        languageRating,
-        awardsData
+        cache.progressData,
+        cache.accountData,
+        cache.locationRating,
+        cache.languageRating,
+        cache.awardsData
     ));
 
     return progressContainer;

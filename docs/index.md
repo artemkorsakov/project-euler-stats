@@ -13,18 +13,22 @@ tasks, awards, and friends' rankings.
 ## Features
 
 1. **Profile Information**:
+
 	- Displays your Project Euler account details, including username, alias, location,
 	  programming language, level, and number of solved problems.
 
 2. **Progress Overview**:
+
 	- Shows your overall progress, including the percentage of problems solved
 	  and your rankings in global, regional, and language-specific leaderboards.
 
 3. **Tasks**:
+
 	- Lists your current tasks, such as the number of problems remaining
 	  to reach the next level or improve your rankings.
 
 4. **Awards**:
+
 	- Displays your progress toward earning Project Euler awards, including both completed and uncompleted awards.
 
 5. **Friends**:
@@ -110,10 +114,10 @@ Solve problem 15; 27.1%
 
 ### Location progress
 
-This section provides an overview of your ranking in the **Location rating** on Project Euler. 
-Currently, this account is **not in the Top 100**, with **118 problems solved**. 
-The table below breaks down the number of problems required to reach higher ranks, 
-such as Top 100, Top 50, Top 25, Top 10, Top 5, and Top 1, 
+This section provides an overview of your ranking in the **Location rating** on Project Euler.
+Currently, this account is **not in the Top 100**, with **118 problems solved**.
+The table below breaks down the number of problems required to reach higher ranks,
+such as Top 100, Top 50, Top 25, Top 10, Top 5, and Top 1,
 along with the number of problems remaining to achieve each milestone.
 
 This section helps you track your progress and set goals for climbing the ranks in the Location leaderboard.
@@ -123,9 +127,9 @@ This section helps you track your progress and set goals for climbing the ranks 
 ### Language progress
 
 This section highlights your ranking in the **Language rating** on Project Euler.
-This account is currently in **82nd place**, with **118 problems solved**. 
-The table outlines the number of problems needed to advance to higher ranks, 
-such as Top 50, Top 25, Top 10, Top 5, and Top 1, 
+This account is currently in **82nd place**, with **118 problems solved**.
+The table outlines the number of problems needed to advance to higher ranks,
+such as Top 50, Top 25, Top 10, Top 5, and Top 1,
 along with the remaining problems required for each milestone.
 
 This section helps you track your progress and set goals for climbing the ranks in the Language leaderboard.
@@ -134,10 +138,10 @@ This section helps you track your progress and set goals for climbing the ranks 
 
 ### Level progress
 
-This section provides an overview of your **level progression** on Project Euler. 
-It displays your current level, the number of problems you've solved, 
-and how close you are to reaching the next levels. 
-Additionally, it shows how many members have achieved each level, 
+This section provides an overview of your **level progression** on Project Euler.
+It displays your current level, the number of problems you've solved,
+and how close you are to reaching the next levels.
+Additionally, it shows how many members have achieved each level,
 giving you a sense of your standing within the community.
 
 This section is designed to help you stay motivated and focused on your journey through Project Euler's levels.
@@ -147,11 +151,11 @@ Keep solving problems to climb higher and join the ranks of the top members!
 
 ### Awards
 
-This section provides an overview of the **awards** you can earn on Project Euler. 
-Awards are divided into three categories: **Problem Solving Awards**, **Contributor Awards**, and **Forum Based Awards**. 
+This section provides an overview of the **awards** you can earn on Project Euler.
+Awards are divided into three categories: **Problem Solving Awards**, **Contributor Awards**, and **Forum Based Awards**.
 Each award has a description, the number of members who have earned it, and a progress bar to track your progress.
 
-This section helps you stay motivated by showcasing your achievements and highlighting areas for improvement. 
+This section helps you stay motivated by showcasing your achievements and highlighting areas for improvement.
 Keep solving problems, contributing, and engaging with the community to unlock more awards!
 
 <img src="images/awards.png" alt="awards" width="500" />
