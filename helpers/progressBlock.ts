@@ -1,4 +1,4 @@
-import { AccountData, AwardData, AwardBlockData, ProgressData, RatingData } from './types';
+import { AccountData, AwardData, AwardBlockData, PersonalTask, ProgressData, RatingData, Source } from './types';
 import { createProgressBar, createSectionHeader } from './commonBlocks';
 
 interface Result {
@@ -140,6 +140,20 @@ function createProgressTable(
     return table;
 }
 
+function createPersonalTasksList(personalTasks: PersonalTask[]): HTMLElement {
+    const tasksList = document.createElement('ul');
+    tasksList.className = 'tasks-list';
+
+    personalTasks.forEach(personalTask => {
+        const li = document.createElement('li');
+        li.textContent = personalTask.task;
+        li.appendChild(createProgressBar(personalTask.percentage));
+        tasksList.appendChild(li);
+    });
+
+    return tasksList;
+}
+
 function createTasksList(
     progressData: ProgressData,
     accountData: AccountData,
@@ -200,6 +214,7 @@ function createTasksList(
  * @param locationRating - The location rating data.
  * @param languageRating - The language rating data.
  * @param awardsData - The awards data.
+ * @param source - The source data.
  * @returns The generated HTMLElement (progress table container).
  */
 export function generateProgressTableHTML(
@@ -210,7 +225,8 @@ export function generateProgressTableHTML(
     euleriansPlace: string,
     locationRating: RatingData,
     languageRating: RatingData,
-    awardsData: AwardBlockData[]
+    awardsData: AwardBlockData[],
+    source: Source
 ): HTMLElement {
     const progressContainer = document.createElement('div');
     progressContainer.appendChild(createSectionHeader('Progress'));
@@ -224,6 +240,12 @@ export function generateProgressTableHTML(
         locationRating,
         languageRating
     ));
+
+    // Personal tasks section
+    const personalTasksHeader = document.createElement('h3');
+    personalTasksHeader.textContent = 'Personal tasks';
+    progressContainer.appendChild(personalTasksHeader);
+    progressContainer.appendChild(createPersonalTasksList(source.tasks));
 
     // Tasks section
     const tasksHeader = document.createElement('h3');

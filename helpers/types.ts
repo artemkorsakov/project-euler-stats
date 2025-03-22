@@ -110,3 +110,16 @@ export class FriendData {
 		public awards: number
 	) {}
 }
+
+export class Source {
+	constructor(
+        public tasks: PersonalTask[],
+	) {}
+}
+
+export class PersonalTask {
+    constructor(
+        public task: string,
+        public percentage: number
+    ) {}
+}

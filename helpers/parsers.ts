@@ -12,7 +12,7 @@ export function extractSolvedCount(text: string): number {
     return match && match[1] ? parseInt(match[1], 10) : 0;
 }
 
-function extractPercentage(input: string): number {
+export function extractPercentage(input: string): number {
     const regex = /(\d+(\.\d+)?)%/;
     const match = input.match(regex);
 

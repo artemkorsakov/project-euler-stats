@@ -1,5 +1,6 @@
 import { App, Editor, MarkdownView, Modal, Notice, Plugin, PluginSettingTab, Setting } from 'obsidian';
 import { fetchProgress } from "helpers/fetchProgress";
+import { extractSources } from "helpers/sourceExtractor";
 
 export default class ProjectEulerStatsPlugin extends Plugin {
 	settings: ProjectEulerStatsSettings;
@@ -13,7 +14,8 @@ export default class ProjectEulerStatsPlugin extends Plugin {
         const keep_alive = this.settings.keep_alive;
 
 	    this.registerMarkdownCodeBlockProcessor('euler-stats', async (source, el, ctx) => {
-            const stats = await fetchProgress(session, keep_alive);
+			const extractedSource = extractSources(source);
+            const stats = await fetchProgress(session, keep_alive, extractedSource);
             const container = el.createEl('div');
             container.appendChild(stats);
         });

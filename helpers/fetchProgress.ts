@@ -18,9 +18,11 @@ import {
     AccountData,
     AwardBlockData,
     FriendData,
+    LevelData,
+    PersonalTask,
     ProgressData,
     RatingData,
-    LevelData
+    Source
 } from './types';
 
 const mainUrl = 'https://projecteuler.net/';
@@ -34,11 +36,11 @@ const keepAliveName = 'keep_alive';
  * @param retries - The number of retries in case of failure.
  * @returns A Promise that resolves to an HTMLElement.
  */
-export async function fetchProgress(session: string, keep_alive: string): Promise<HTMLElement> {
+export async function fetchProgress(session: string, keep_alive: string, source: Source): Promise<HTMLElement> {
     const cookies = `${sessionIdName}=${session}; ${keepAliveName}=${keep_alive}`;
 
     try {
-        return await tryToFetchProgress(cookies);
+        return await tryToFetchProgress(cookies, source);
     } catch (error) {
         console.error('Error fetching progress:', error);
 
@@ -48,7 +50,7 @@ export async function fetchProgress(session: string, keep_alive: string): Promis
     }
 }
 
-async function tryToFetchProgress(cookies: string): Promise<HTMLElement> {
+async function tryToFetchProgress(cookies: string, source: Source): Promise<HTMLElement> {
     const [
         accountData,
         progressData,
@@ -78,7 +80,8 @@ async function tryToFetchProgress(cookies: string): Promise<HTMLElement> {
         languageRating,
         levelDataArray,
         awardsData,
-        friends
+        friends,
+        source
     );
 }
 
@@ -119,7 +122,8 @@ function generateHTML(
     languageRating: RatingData,
     levelDataArray: LevelData[],
     awardsData: AwardBlockData[],
-    friends: FriendData[]
+    friends: FriendData[],
+    source: Source
 ): HTMLElement {
     const container = document.createElement('div');
 
@@ -129,7 +133,7 @@ function generateHTML(
     const imageElement = generateImageHTML(accountData.account);
     container.appendChild(imageElement);
 
-    const progressElement = generateProgressTableHTML(accountData, progressData, locationUrl, languageUrl, euleriansPlace, locationRating, languageRating, awardsData);
+    const progressElement = generateProgressTableHTML(accountData, progressData, locationUrl, languageUrl, euleriansPlace, locationRating, languageRating, awardsData, source);
     container.appendChild(progressElement);
 
     const locationRatingElement = generateRatingTableHTML(locationUrl, accountData.location, progressData.solved, locationRating);

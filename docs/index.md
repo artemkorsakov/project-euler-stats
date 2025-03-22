@@ -94,6 +94,20 @@ Here, you can see your current tasks and how many problems you need to solve to 
 
 <img src="images/tasks.png" alt="tasks" width="500" />
 
+### Personal tasks
+
+You can add your personal tasks:
+
+````
+```euler-stats
+Solve problem 3; 0%
+Solve problem 14; 15.6%
+Solve problem 15; 27.1%
+```
+````
+
+<img src="images/personal_tasks.png" alt="personal tasks" width="500" />
+
 ### Location progress
 
 This section provides an overview of your ranking in the **Location rating** on Project Euler. 
