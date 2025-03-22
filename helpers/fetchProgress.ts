@@ -39,12 +39,8 @@ const keepAliveName = 'keep_alive';
  * @returns A Promise that resolves to an HTMLElement.
  */
 export async function fetchProgress(session: string, keep_alive: string, source: Source): Promise<HTMLElement> {
-    // Define the path to the plugin's cache folder and ensure it exists
-    const folderPath = getPluginFolderPath();
-    await ensureFolderExists(folderPath);
-    const filePath = `${folderPath}/cache.json`;
-
     // Attempt to load cached data from the file
+    const filePath = await getFilePath();
     const savedData = await loadDataFromFile(filePath);
 
     // If cached data exists, generate and return HTML from it
@@ -53,7 +49,7 @@ export async function fetchProgress(session: string, keep_alive: string, source:
     }
 
     // If no cached data is available, try to fetch fresh data from the server
-    const fetchedData = await tryToFetchAndSaveProgress(session, keep_alive, filePath);
+    const fetchedData = await tryToFetchAndSaveProgress(session, keep_alive);
 
     // If fetching fresh data is successful, generate and return HTML from it
     if (fetchedData) {
@@ -66,18 +62,22 @@ export async function fetchProgress(session: string, keep_alive: string, source:
     return errorContainer;
 }
 
+async function getFilePath(): Promise<string> {
+	const folderPath = getPluginFolderPath();
+    await ensureFolderExists(folderPath);
+    return `${folderPath}/cache.json`;
+}
+
 function getPluginFolderPath(): string {
     return `${this.app.vault.configDir}/plugins/project-euler-stats/cache`;
 }
 
-async function tryToFetchAndSaveProgress(session: string, keep_alive: string, filePath: string): Promise<CacheData | null> {
+export async function tryToFetchAndSaveProgress(session: string, keep_alive: string): Promise<CacheData | null> {
+	const filePath = await getFilePath();
 	const cookies = `${sessionIdName}=${session}; ${keepAliveName}=${keep_alive}`;
 
     try {
         const cacheData = await tryToFetchProgress(cookies);
-
-        console.log('Я пошел фетчить прогресс, вот данные:', cacheData);
-
         await saveDataToFile(filePath, cacheData);
         return cacheData;
     } catch (error) {

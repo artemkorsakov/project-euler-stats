@@ -1,5 +1,5 @@
 import { App, Editor, MarkdownView, Modal, Notice, Plugin, PluginSettingTab, Setting } from 'obsidian';
-import { fetchProgress } from "helpers/fetchProgress";
+import { fetchProgress, tryToFetchAndSaveProgress } from "helpers/fetchProgress";
 import { extractSources } from "helpers/sourceExtractor";
 
 export default class ProjectEulerStatsPlugin extends Plugin {
@@ -10,14 +10,26 @@ export default class ProjectEulerStatsPlugin extends Plugin {
 
 		this.addSettingTab(new ProjectEulerStatsSettingTab(this.app, this));
 
-        const session = this.settings.session_id;
-        const keep_alive = this.settings.keep_alive;
-
 	    this.registerMarkdownCodeBlockProcessor('euler-stats', async (source, el, ctx) => {
 			const extractedSource = extractSources(source);
-            const stats = await fetchProgress(session, keep_alive, extractedSource);
+            const stats = await fetchProgress(this.settings.session_id, this.settings.keep_alive, extractedSource);
             const container = el.createEl('div');
             container.appendChild(stats);
+        });
+
+        this.addCommand({
+            id: 'sync-with-project-euler',
+            name: 'Sync with Project Euler',
+            callback: async () => {
+                try {
+                    const fetchedData = await tryToFetchAndSaveProgress(this.settings.session_id, this.settings.keep_alive);
+                    const message = fetchedData ? 'Successfully synced with Project Euler.' : 'Failed to sync with Project Euler. Please update your cookies in the settings and try again.';
+                    new Notice(message);
+                } catch (error) {
+                    console.error('Error during sync:', error);
+                    new Notice('Error during sync. Please check the console for details.');
+                }
+            },
         });
 	}
 
