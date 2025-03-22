@@ -321,4 +321,4 @@ For issues or feature requests, please open an issue on the [GitHub repository][
 Enjoy tracking your Project Euler progress directly in Obsidian! 🚀
 
 [projecteuler]: https://projecteuler.net/
-[github]: https://github.com/artemkorsakov/project-euler-stats
+[github]: https://github.com/artemkorsakov/project-euler-stats/issues
