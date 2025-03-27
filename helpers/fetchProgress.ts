@@ -11,6 +11,7 @@ import {
 } from './parsers';
 import { generateProfileHTML, generateImageHTML } from './profileBlock';
 import { generateProgressTableHTML } from './progressBlock';
+import { generateTasksTableHTML } from './tasksBlock';
 import { generateRatingTableHTML } from './ratingBlock';
 import { generateLevelsTableHTML } from './levelsBlock';
 import { generateAwardsTableHTML } from './awardsBlock';
@@ -145,8 +146,11 @@ function generateHTML(cache: CacheData, source: Source): HTMLElement {
     const imageElement = generateImageHTML(cache.accountData.account);
     container.appendChild(imageElement);
 
-    const progressElement = generateProgressTableHTML(cache, source);
+    const progressElement = generateProgressTableHTML(cache);
     container.appendChild(progressElement);
+
+    const tasksElement = generateTasksTableHTML(cache, source);
+    container.appendChild(tasksElement);
 
     const locationRatingElement = generateRatingTableHTML(cache.locationUrl, cache.accountData.location, cache.progressData.solved, cache.locationRating);
     container.appendChild(locationRatingElement);
