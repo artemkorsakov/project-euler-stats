@@ -122,6 +122,8 @@ Each task should be written in the following format:
 - **`<task>`**: Your personal task.
 - **`<progress>`**: The percentage of progress you have made on the problem (e.g., `0%`, `15.6%`, `100%`).
 
+Personal tasks will be added before "standard" ones in the order they are declared.
+
 <img src="images/personal_tasks.png" alt="personal tasks" width="500" />
 
 ### Location progress
