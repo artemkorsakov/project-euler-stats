@@ -17,10 +17,11 @@ function createTableRow(label: string, solvedCount: number, remaining: number): 
     return row;
 }
 
-function createRatingTable(solved: number, rating: RatingData): HTMLElement {
+function createRatingTable(solved: number, rating: RatingData, useShortFormat: boolean): HTMLElement {
     const table = document.createElement('table');
     const tableBody = document.createElement('tbody');
 
+    // Create table header
     const headerRow = document.createElement('tr');
     ['Competition', 'Solved', 'Remaining'].forEach(headerText => {
         const headerCell = document.createElement('th');
@@ -29,24 +30,25 @@ function createRatingTable(solved: number, rating: RatingData): HTMLElement {
     });
     tableBody.appendChild(headerRow);
 
-    if (rating.place > 100) {
-        tableBody.appendChild(createTableRow('Top 100', rating.top100, rating.top100 - solved + 1));
-    }
-    if (rating.place > 50) {
-        tableBody.appendChild(createTableRow('Top 50', rating.top50, rating.top50 - solved + 1));
-    }
-    if (rating.place > 25) {
-        tableBody.appendChild(createTableRow('Top 25', rating.top25, rating.top25 - solved + 1));
-    }
-    if (rating.place > 10) {
-        tableBody.appendChild(createTableRow('Top 10', rating.top10, rating.top10 - solved + 1));
-    }
-    if (rating.place > 5) {
-        tableBody.appendChild(createTableRow('Top 5', rating.top5, rating.top5 - solved + 1));
-    }
-    if (rating.place >= 1) {
-        tableBody.appendChild(createTableRow('Top 1', rating.top1, rating.top1 - solved + 1));
-    }
+    // Define rating tiers with their display conditions
+    const ratingTiers = [
+        { name: 'Top 100', value: rating.top100, showCondition: rating.place > 100 },
+        { name: 'Top 50', value: rating.top50, showCondition: rating.place > 50 },
+        { name: 'Top 25', value: rating.top25, showCondition: rating.place > 25 },
+        { name: 'Top 10', value: rating.top10, showCondition: rating.place > 10 },
+        { name: 'Top 5', value: rating.top5, showCondition: rating.place > 5 },
+        { name: 'Top 1', value: rating.top1, showCondition: rating.place >= 1 }
+    ];
+
+    // Filter tiers based on current position and format preference
+    const visibleTiers = ratingTiers.filter(tier => tier.showCondition);
+    const tiersToShow = useShortFormat ? visibleTiers.slice(0, 3) : visibleTiers;
+
+    // Add rows for each visible tier
+    tiersToShow.forEach(tier => {
+        const remaining = tier.value - solved + 1;
+        tableBody.appendChild(createTableRow(tier.name, tier.value, remaining));
+    });
 
     table.appendChild(tableBody);
     return table;
@@ -59,7 +61,7 @@ function createRatingTable(solved: number, rating: RatingData): HTMLElement {
  * @param rating - The rating data.
  * @returns The generated HTMLElement (rating table container).
  */
-export function generateRatingTableHTML(url: string, title: string, solved: number, rating: RatingData): HTMLElement {
+export function generateRatingTableHTML(url: string, title: string, solved: number, rating: RatingData, useShortFormat: boolean): HTMLElement {
     const ratingContainer = document.createElement('div');
 
     // Header with link
@@ -72,10 +74,12 @@ export function generateRatingTableHTML(url: string, title: string, solved: numb
     header.appendChild(link);
     ratingContainer.appendChild(header);
 
-    const place = rating.place > 100 ? 'You are not in the Top 100' : rating.place.toString();
-    ratingContainer.appendChild(createSectionHeader(`Current place: ${place}`, 'h4'));
-    ratingContainer.appendChild(createSectionHeader(`Solved problems: ${solved}`, 'h5'));
-    ratingContainer.appendChild(createRatingTable(solved, rating));
+    if (!useShortFormat) {
+        const place = rating.place > 100 ? 'You are not in the Top 100' : rating.place.toString();
+        ratingContainer.appendChild(createSectionHeader(`Current place: ${place}`, 'h4'));
+        ratingContainer.appendChild(createSectionHeader(`Solved problems: ${solved}`, 'h5'));
+	}
+    ratingContainer.appendChild(createRatingTable(solved, rating, useShortFormat));
 
     return ratingContainer;
 }

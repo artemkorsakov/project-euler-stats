@@ -30,7 +30,7 @@ function createAwardTableRow(award: AwardData): HTMLElement {
     return row;
 }
 
-function createAwardTable(awardData: AwardBlockData): HTMLElement {
+function createAwardTable(awardData: AwardBlockData, useShortFormat: boolean): HTMLElement {
     const table = document.createElement('table');
     const tableBody = document.createElement('tbody');
 
@@ -42,17 +42,30 @@ function createAwardTable(awardData: AwardBlockData): HTMLElement {
     });
     tableBody.appendChild(headerRow);
 
-    awardData.awards.forEach(award => {
-        if (!award.isCompleted) {
+    const sortedAwards =
+        awardData.awards
+            .filter(award => !award.isCompleted)
+            .map(award => ({
+                award,
+                members: parseInt(award.members.replace(/\D/g, '')) || 0
+            }))
+            .sort((a, b) => b.members - a.members)
+
+    if (useShortFormat) {
+		sortedAwards.slice(0, 3).forEach(({ award }) => {
             tableBody.appendChild(createAwardTableRow(award));
-        }
-    });
+        });
+	} else {
+		sortedAwards.forEach(({ award }) => {
+            tableBody.appendChild(createAwardTableRow(award));
+        });
+	}
 
     table.appendChild(tableBody);
     return table;
 }
 
-function createAwardBlock(awardData: AwardBlockData): HTMLElement {
+function createAwardBlock(awardData: AwardBlockData, useShortFormat: boolean): HTMLElement {
     const awardBlock = document.createElement('div');
 
     const awardName = document.createElement('h3');
@@ -62,15 +75,17 @@ function createAwardBlock(awardData: AwardBlockData): HTMLElement {
     const completed = awardData.getCompletedCount();
     const total = awardData.awards.length;
 
-    const completedStatus = document.createElement('h4');
-    completedStatus.textContent = `Status: Won ${completed} out of ${total}`;
-    awardBlock.appendChild(completedStatus);
+    if (!useShortFormat) {
+        const completedStatus = document.createElement('h4');
+        completedStatus.textContent = `Status: Won ${completed} out of ${total}`;
+        awardBlock.appendChild(completedStatus);
 
-    const uncompletedStatus = document.createElement('h4');
-    uncompletedStatus.textContent = `Uncompleted awards: ${total - completed}`;
-    awardBlock.appendChild(uncompletedStatus);
+        const uncompletedStatus = document.createElement('h4');
+        uncompletedStatus.textContent = `Uncompleted awards: ${total - completed}`;
+        awardBlock.appendChild(uncompletedStatus);
+    }
 
-    awardBlock.appendChild(createAwardTable(awardData));
+    awardBlock.appendChild(createAwardTable(awardData, useShortFormat));
 
     return awardBlock;
 }
@@ -80,7 +95,7 @@ function createAwardBlock(awardData: AwardBlockData): HTMLElement {
  * @param awardsData - The awards data.
  * @returns The generated HTMLElement (awards table container).
  */
-export function generateAwardsTableHTML(awardsData: AwardBlockData[]): HTMLElement {
+export function generateAwardsTableHTML(awardsData: AwardBlockData[], useShortFormat: boolean): HTMLElement {
     const awardsContainer = document.createElement('div');
 
     const awardsHeader = document.createElement('h2');
@@ -88,7 +103,7 @@ export function generateAwardsTableHTML(awardsData: AwardBlockData[]): HTMLEleme
     awardsContainer.appendChild(awardsHeader);
 
     awardsData.forEach(awardData => {
-        awardsContainer.appendChild(createAwardBlock(awardData));
+        awardsContainer.appendChild(createAwardBlock(awardData, useShortFormat));
     });
 
     return awardsContainer;

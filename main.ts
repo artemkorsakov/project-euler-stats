@@ -12,7 +12,7 @@ export default class ProjectEulerStatsPlugin extends Plugin {
 
 	    this.registerMarkdownCodeBlockProcessor('euler-stats', async (source, el, ctx) => {
 			const extractedSource = extractSources(source);
-            const stats = await fetchProgress(this.settings.session_id, this.settings.keep_alive, extractedSource);
+            const stats = await fetchProgress(this.settings.session_id, this.settings.keep_alive, extractedSource, this.settings.use_short_format);
             const container = el.createEl('div');
             container.appendChild(stats);
         });
@@ -49,11 +49,13 @@ export default class ProjectEulerStatsPlugin extends Plugin {
 export interface ProjectEulerStatsSettings {
 	session_id: string;
 	keep_alive: string;
+    use_short_format: boolean;
 }
 
 export const DEFAULT_SETTINGS: ProjectEulerStatsSettings = {
 	session_id: '',
-	keep_alive: ''
+	keep_alive: '',
+	use_short_format: false
 }
 
 export class ProjectEulerStatsSettingTab extends PluginSettingTab {
@@ -90,5 +92,15 @@ export class ProjectEulerStatsSettingTab extends PluginSettingTab {
 					this.plugin.settings.keep_alive = value;
 					await this.plugin.saveSettings();
 				}));
+
+        new Setting(containerEl)
+            .setName('Use compact format')
+            .setDesc('Enable to display data in a compact view')
+            .addToggle(toggle => toggle
+                .setValue(this.plugin.settings.use_short_format)
+                .onChange(async (value) => {
+                    this.plugin.settings.use_short_format = value;
+                    await this.plugin.saveSettings();
+                }));
 	}
 }

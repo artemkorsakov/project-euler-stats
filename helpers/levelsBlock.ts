@@ -29,7 +29,7 @@ function createLevelTableRow(levelData: LevelData, progressData: ProgressData): 
     return row;
 }
 
-function createLevelsTable(progressData: ProgressData, levelDataArray: LevelData[]): HTMLElement {
+function createLevelsTable(progressData: ProgressData, levelDataArray: LevelData[], useShortFormat: boolean): HTMLElement {
     const table = document.createElement('table');
     const tableBody = document.createElement('tbody');
 
@@ -41,9 +41,15 @@ function createLevelsTable(progressData: ProgressData, levelDataArray: LevelData
     });
     tableBody.appendChild(headerRow);
 
-    levelDataArray.forEach(levelData => {
-        tableBody.appendChild(createLevelTableRow(levelData, progressData));
-    });
+    if (useShortFormat) {
+        levelDataArray.slice(0, 3).forEach(levelData => {
+            tableBody.appendChild(createLevelTableRow(levelData, progressData));
+        });
+    } else {
+        levelDataArray.forEach(levelData => {
+            tableBody.appendChild(createLevelTableRow(levelData, progressData));
+        });
+	}
 
     table.appendChild(tableBody);
     return table;
@@ -62,7 +68,7 @@ function calculateTotalMembers(levelDataArray: LevelData[]): number {
  * @param levelDataArray - The array of level data.
  * @returns The generated HTMLElement (levels table container).
  */
-export function generateLevelsTableHTML(progressData: ProgressData, levelDataArray: LevelData[]): HTMLElement {
+export function generateLevelsTableHTML(progressData: ProgressData, levelDataArray: LevelData[], useShortFormat: boolean): HTMLElement {
     const level = stringToNumber(progressData.level);
 
     const levelsContainer = document.createElement('div');
@@ -75,12 +81,15 @@ export function generateLevelsTableHTML(progressData: ProgressData, levelDataArr
 
     const slicedArray = levelDataArray.slice(level - 1);
     levelsContainer.appendChild(createSectionHeader('Level progress'));
-    levelsContainer.appendChild(createSectionHeader(`Current level: ${progressData.level}`, 'h4'));
-    levelsContainer.appendChild(createSectionHeader(`Solved problems: ${progressData.solved}`, 'h5'));
-    const allMembers = calculateTotalMembers(slicedArray);
-    levelsContainer.appendChild(createSectionHeader(`Status: ${allMembers} members have made it this far.`, 'h5'));
 
-    levelsContainer.appendChild(createLevelsTable(progressData, slicedArray));
+    if (!useShortFormat) {
+        levelsContainer.appendChild(createSectionHeader(`Current level: ${progressData.level}`, 'h4'));
+        levelsContainer.appendChild(createSectionHeader(`Solved problems: ${progressData.solved}`, 'h5'));
+        const allMembers = calculateTotalMembers(slicedArray);
+        levelsContainer.appendChild(createSectionHeader(`Status: ${allMembers} members have made it this far.`, 'h5'));
+    }
+
+    levelsContainer.appendChild(createLevelsTable(progressData, slicedArray, useShortFormat));
 
     return levelsContainer;
 }

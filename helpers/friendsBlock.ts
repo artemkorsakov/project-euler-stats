@@ -52,7 +52,7 @@ function createFriendTableRow(friend: FriendData, myAccount: FriendData, account
     return row;
 }
 
-function createFriendsTable(friends: FriendData[], myAccount: FriendData, accountData: AccountData): HTMLElement {
+function createFriendsTable(friends: FriendData[], myAccount: FriendData, accountData: AccountData, useShortFormat: boolean): HTMLElement {
     const table = document.createElement('table');
     const tableBody = document.createElement('tbody');
 
@@ -64,9 +64,15 @@ function createFriendsTable(friends: FriendData[], myAccount: FriendData, accoun
     });
     tableBody.appendChild(headerRow);
 
-    friends.forEach(friend => {
-        tableBody.appendChild(createFriendTableRow(friend, myAccount, accountData));
-    });
+    if (useShortFormat) {
+        friends.slice(0, 3).forEach(friend => {
+            tableBody.appendChild(createFriendTableRow(friend, myAccount, accountData));
+        });
+    } else {
+        friends.forEach(friend => {
+            tableBody.appendChild(createFriendTableRow(friend, myAccount, accountData));
+        });
+	}
 
     table.appendChild(tableBody);
     return table;
@@ -78,11 +84,11 @@ function createFriendsTable(friends: FriendData[], myAccount: FriendData, accoun
  * @param accountData - The account data.
  * @returns The generated HTMLElement (friends table container).
  */
-export function generateFriendsHTML(friends: FriendData[], accountData: AccountData): HTMLElement {
+export function generateFriendsHTML(friends: FriendData[], accountData: AccountData, useShortFormat: boolean): HTMLElement {
     const friendsContainer = document.createElement('div');
     friendsContainer.appendChild(createSectionHeader('Friends'));
     const myAccount = friends.find(friend => friend.username === accountData.alias) ?? new FriendData('-', accountData.alias, 0, 0, 0);
-    friendsContainer.appendChild(createFriendsTable(friends, myAccount, accountData));
+    friendsContainer.appendChild(createFriendsTable(friends, myAccount, accountData, useShortFormat));
 
     return friendsContainer;
 }

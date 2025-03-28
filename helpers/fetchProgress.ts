@@ -39,14 +39,14 @@ const keepAliveName = 'keep_alive';
  * @param source - The source data for generating HTML.
  * @returns A Promise that resolves to an HTMLElement.
  */
-export async function fetchProgress(session: string, keep_alive: string, source: Source): Promise<HTMLElement> {
+export async function fetchProgress(session: string, keep_alive: string, source: Source, useShortFormat: boolean): Promise<HTMLElement> {
     // Attempt to load cached data from the file
     const filePath = await getFilePath();
     const savedData = await loadDataFromFile(filePath);
 
     // If cached data exists, generate and return HTML from it
     if (savedData) {
-        return generateHTML(savedData, source);
+        return generateHTML(savedData, source, useShortFormat);
     }
 
     // If no cached data is available, try to fetch fresh data from the server
@@ -54,7 +54,7 @@ export async function fetchProgress(session: string, keep_alive: string, source:
 
     // If fetching fresh data is successful, generate and return HTML from it
     if (fetchedData) {
-        return generateHTML(fetchedData, source);
+        return generateHTML(fetchedData, source, useShortFormat);
     }
 
     // If neither cached nor fresh data is available, create an error message
@@ -137,34 +137,36 @@ async function fetchAwardsData(cookies: string): Promise<AwardBlockData[]> {
     return parseAwardsData(myAwardsHtml, awardsHtml);
 }
 
-function generateHTML(cache: CacheData, source: Source): HTMLElement {
+function generateHTML(cache: CacheData, source: Source, useShortFormat: boolean): HTMLElement {
     const container = document.createElement('div');
 
-    const profileElement = generateProfileHTML(cache.accountData, cache.progressData);
+    const profileElement = generateProfileHTML(cache.accountData, cache.progressData, useShortFormat);
     container.appendChild(profileElement);
 
-    const imageElement = generateImageHTML(cache.accountData.account);
-    container.appendChild(imageElement);
+    if (!useShortFormat) {
+		const imageElement = generateImageHTML(cache.accountData.account);
+        container.appendChild(imageElement);
+	}
 
-    const progressElement = generateProgressTableHTML(cache);
+    const progressElement = generateProgressTableHTML(cache, useShortFormat);
     container.appendChild(progressElement);
 
     const tasksElement = generateTasksTableHTML(cache, source);
     container.appendChild(tasksElement);
 
-    const locationRatingElement = generateRatingTableHTML(cache.locationUrl, cache.accountData.location, cache.progressData.solved, cache.locationRating);
+    const locationRatingElement = generateRatingTableHTML(cache.locationUrl, cache.accountData.location, cache.progressData.solved, cache.locationRating, useShortFormat);
     container.appendChild(locationRatingElement);
 
-    const languageRatingElement = generateRatingTableHTML(cache.languageUrl, cache.accountData.language, cache.progressData.solved, cache.languageRating);
+    const languageRatingElement = generateRatingTableHTML(cache.languageUrl, cache.accountData.language, cache.progressData.solved, cache.languageRating, useShortFormat);
     container.appendChild(languageRatingElement);
 
-    const levelsElement = generateLevelsTableHTML(cache.progressData, cache.levelDataArray);
+    const levelsElement = generateLevelsTableHTML(cache.progressData, cache.levelDataArray, useShortFormat);
     container.appendChild(levelsElement);
 
-    const awardsElement = generateAwardsTableHTML(cache.awardsData);
+    const awardsElement = generateAwardsTableHTML(cache.awardsData, useShortFormat);
     container.appendChild(awardsElement);
 
-    const friendsElement = generateFriendsHTML(cache.friends, cache.accountData);
+    const friendsElement = generateFriendsHTML(cache.friends, cache.accountData, useShortFormat);
     container.appendChild(friendsElement);
 
     return container;

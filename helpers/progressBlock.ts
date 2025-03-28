@@ -99,10 +99,12 @@ function createProgressTable(
  * @param cache - The cache data.
  * @returns The generated HTMLElement (progress table container).
  */
-export function generateProgressTableHTML(cache: CacheData): HTMLElement {
+export function generateProgressTableHTML(cache: CacheData, useShortFormat: boolean): HTMLElement {
     const progressContainer = document.createElement('div');
     progressContainer.appendChild(createSectionHeader('Progress'));
-    progressContainer.appendChild(createProgressBar(cache.progressData.percentage));
+    if (!useShortFormat) {
+        progressContainer.appendChild(createProgressBar(cache.progressData.percentage));
+	}
     progressContainer.appendChild(createProgressTable(
 		cache.progressData,
         cache.euleriansPlace,
