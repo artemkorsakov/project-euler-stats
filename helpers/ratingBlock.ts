@@ -75,7 +75,7 @@ export function generateRatingTableHTML(url: string, title: string, solved: numb
     ratingContainer.appendChild(header);
 
     if (!useShortFormat) {
-        const place = rating.place > 100 ? 'You are not in the Top 100' : rating.place.toString();
+        const place = rating.place > 100 ? 'You are not in the top 100' : rating.place.toString();
         ratingContainer.appendChild(createSectionHeader(`Current place: ${place}`, 'h4'));
         ratingContainer.appendChild(createSectionHeader(`Solved problems: ${solved}`, 'h5'));
 	}

@@ -64,7 +64,7 @@ function createProgressTable(
     ));
 
     // Location rating
-    const locationPlace = locationRating.place > 100 ? 'You are not in the Top 100' : locationRating.place.toString();
+    const locationPlace = locationRating.place > 100 ? 'You are not in the top 100' : locationRating.place.toString();
     const locationPlaceToTop = locationRating.place > 100 ? 0 : 100 - locationRating.place;
     const locationPercentage = createProgressBar(locationPlaceToTop);
     const locationLink = document.createElement('a');
@@ -77,7 +77,7 @@ function createProgressTable(
     ));
 
     // Language rating
-    const languagePlace = languageRating.place > 100 ? 'You are not in the Top 100' : languageRating.place.toString();
+    const languagePlace = languageRating.place > 100 ? 'You are not in the top 100' : languageRating.place.toString();
     const languagePlaceToTop = languageRating.place > 100 ? 0 : 100 - languageRating.place;
     const languagePercentage = createProgressBar(languagePlaceToTop);
     const languageLink = document.createElement('a');
